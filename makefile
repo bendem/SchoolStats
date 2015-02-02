@@ -14,6 +14,7 @@ FILES:=$(call rwildcard,$(HDR)/,*.hpp)
 OBJ:=$(FILES:$(HDR)/%.hpp=$(OUT)/%.o)
 
 .PHONY: build clean mkdir
+.SILENT:
 
 build: | mkdir $(OUT)/main
 
