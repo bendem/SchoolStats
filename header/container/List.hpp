@@ -84,6 +84,10 @@ public:
      */
     unsigned size() const;
 
+    List<T>& operator=(List<T>);
+
+    T operator[](unsigned) const;
+
     friend class ConstIterator<T>;
     friend class Iterator<T>;
 
@@ -215,6 +219,18 @@ void List<T>::remove(unsigned index) {
 template<class T>
 inline unsigned List<T>::size() const {
     return this->nbElems;
+}
+
+template<class T>
+List<T>& List<T>::operator=(List<T> list) {
+    swap(this->nbElems, list.nbElems);
+    swap(this->first, list.first);
+    return *this;
+}
+
+template<class T>
+inline T List<T>::operator[](unsigned index) const {
+    return this->get(index);
 }
 
 #endif
