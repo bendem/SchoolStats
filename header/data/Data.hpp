@@ -2,6 +2,8 @@
 #define DATA_HPP
 
 class Data {
+public:
+    virtual ~Data() = 0;
 
 };
 

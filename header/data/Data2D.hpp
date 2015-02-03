@@ -1,7 +1,19 @@
 #ifndef DATA2D_HPP
 #define DATA2D_HPP
 
-class Data2D {
+#include "data/Data.hpp"
+
+class Data2D : public Data {
+
+private:
+    float value1;
+    float value2;
+
+public:
+    Data2D(float, float);
+    Data2D(const Data2D&);
+
+    Data2D& operator=(const Data2D&);
 
 };
 

@@ -1,7 +1,9 @@
 #ifndef DATASOURCE1D_HPP
 #define DATASOURCE1D_HPP
 
-class DataSource1D {
+#include "data/DataSource.hpp"
+
+class DataSource1D : public DataSource {
 
 };
 
