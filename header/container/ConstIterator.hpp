@@ -45,7 +45,7 @@ public:
     ConstIterator<T>& operator++();
     ConstIterator<T> operator++(int);
     operator T();
-    const T& operator &() const;
+    const T& operator&() const;
 
 };
 

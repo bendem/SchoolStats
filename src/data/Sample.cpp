@@ -12,7 +12,7 @@ Sample::Sample(string filename, unsigned column1, unsigned column2) {
     List<string> titles = StringUtils::split((it++).get(), ':');
     List<string> types = StringUtils::split((it++).get(), ':');
 
-    DataSourceType type = types[column1-1] == "C" ? CONTINOUS : DISCRETE;
+    DataSourceType type = types[column1 - 1] == "C" ? CONTINOUS : DISCRETE;
 
     while(!it.end()) {
         cout << (it++).get() << endl;

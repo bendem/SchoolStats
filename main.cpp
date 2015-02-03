@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     Sample* E1 = NULL;
-    switch (argc) {
+    switch(argc) {
         case 2:
             cout << "Etude 1D" << endl;
             E1 = new Sample(argv[1], 1);

@@ -50,7 +50,7 @@ public:
     Iterator<T>& operator++();
     Iterator<T> operator++(int);
     operator T();
-    T& operator &();
+    T& operator&();
 
     Iterator<T>& operator=(const Iterator<T>&);
 
