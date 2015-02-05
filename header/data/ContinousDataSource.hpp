@@ -3,7 +3,7 @@
 
 #include "data/DataSource.hpp"
 
-class DataSource1D : public DataSource {
+class ContinousDataSource : public DataSource {
 
 };
 

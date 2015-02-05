@@ -37,7 +37,7 @@ public:
     /**
      * Adds an element to the list.
      */
-    void add(const T&);
+    virtual void add(const T&);
 
     /**
      * Adds all the items contained in the list passed as parameter.

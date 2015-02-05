@@ -18,7 +18,11 @@ protected:
     unsigned totalEffective;
 
 public:
+    DataSource(string, string, unsigned);
+    DataSource(const DataSource&);
+    virtual ~DataSource() = 0;
 
+    DataSource& operator=(const DataSource&);
 
 };
 
