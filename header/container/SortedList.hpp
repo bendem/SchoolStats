@@ -3,25 +3,21 @@
 
 #include "container/List.hpp"
 
-template<class T, class C>
+template<class T>
 class SortedList : public List<T> {
-private:
-    C comparator;
 
 public:
-    SortedList(const C& comparator) : comparator(comparator) {}
-    SortedList(const SortedList<T, C>& p) : List<T>(p), comparator(p.comparator) {}
+    SortedList() {}
+    SortedList(const SortedList<T>& p) : List<T>(p) {}
 
     void add(const T&);
-
-    SortedList<T, C>& operator=(SortedList<T, C>);
 };
 
-template<class T, class C>
-void SortedList<T, C>::add(const T& param) {
+template<class T>
+void SortedList<T>::add(const T& param) {
     Node<T>* newNode = new Node<T>(param, NULL);
 
-    if(!this->first || this->comparator(this->first->value, param) >= 0) {
+    if(!this->first || this->first->value >= param) {
         newNode->next = this->first;
         this->first = newNode;
         ++this->nbElems;
@@ -30,7 +26,7 @@ void SortedList<T, C>::add(const T& param) {
 
     Node<T>* current = this->first->next;
     Node<T>* prec = this->first;
-    while(current && this->comparator(current->value, param) < 0) {
+    while(current && current->value < param) {
         prec = current;
         current = current->next;
     }
@@ -38,13 +34,6 @@ void SortedList<T, C>::add(const T& param) {
     prec->next = newNode;
 
     ++this->nbElems;
-}
-
-template<class T, class C>
-SortedList<T, C>& SortedList<T, C>::operator=(SortedList<T, C> l) {
-    List<T>::operator=(l);
-    this->comparator = l.comparator;
-    return *this;
 }
 
 #endif

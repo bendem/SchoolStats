@@ -14,7 +14,6 @@
 #include "utils/StreamUtils.hpp"
 #include "utils/StringUtils.hpp"
 
-
 using namespace std;
 
 class Sample {

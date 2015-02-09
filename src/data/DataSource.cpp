@@ -1,9 +1,12 @@
 #include "data/DataSource.hpp"
 
-DataSource::DataSource(string name, string subject, unsigned totalEffective) {
+DataSource::DataSource(string name, string subject, unsigned totalEffective,
+        DataSourceType type, const List<Data*>& data) {
     this->name = name;
     this->subject = subject;
     this->totalEffective = totalEffective;
+    this->type = type;
+    this->data = data;
 }
 
 DataSource::DataSource(const DataSource& p) {

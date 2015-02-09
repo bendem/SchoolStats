@@ -17,6 +17,9 @@ public:
     Data1D(const Data1D&);
 
     Data1D& add(unsigned);
+    unsigned getCount() const;
+    float getValue() const;
+
 
     int compareTo(const Data1D&) const;
 
@@ -28,7 +31,7 @@ public:
 
 struct Data1DPointerComparator {
     int operator()(Data* d1, Data* d2) {
-        return static_cast<Data1D>(*d1).compareTo(static_cast<Data1D>(*d2));
+        return static_cast<Data1D*>(d1)->compareTo(*static_cast<Data1D*>(d2));
     }
 };
 

@@ -15,6 +15,14 @@ Data1D& Data1D::add(unsigned count) {
     return *this;
 }
 
+inline unsigned Data1D::getCount() const {
+    return this->count;
+}
+
+inline float Data1D::getValue() const {
+    return this->value;
+}
+
 int Data1D::compareTo(const Data1D& p) const {
     if(this->value == p.value) {
         return 0;

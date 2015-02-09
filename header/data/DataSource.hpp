@@ -2,6 +2,8 @@
 #define DATASOURCE_HPP
 
 #include <string>
+#include <container/List.hpp>
+#include "Data.hpp"
 
 using namespace std;
 
@@ -16,9 +18,11 @@ protected:
     string name;
     string subject;
     unsigned totalEffective;
+    DataSourceType type;
+    List<Data*> data;
 
 public:
-    DataSource(string, string, unsigned);
+    DataSource(string, string, unsigned, DataSourceType, const List<Data*>&);
     DataSource(const DataSource&);
     virtual ~DataSource() = 0;
 

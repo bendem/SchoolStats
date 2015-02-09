@@ -9,12 +9,12 @@ Sample::Sample(string filename, unsigned column) {
     ConstIterator<string> it(lines);
 
     string name = (it++).get();
-    List<string> titles = StringUtils::split((it++).get(), ':');
-    List<string> types = StringUtils::split((it++).get(), ':');
+    string subject = StringUtils::split((it++).get(), ':')[column-1];
+    string t = StringUtils::split((it++).get(), ':')[column-1];
 
-    DataSourceType type = types[column - 1] == "C" ? CONTINOUS : DISCRETE;
+    DataSourceType type = t == "C" ? CONTINOUS : DISCRETE;
     // TODO Use type somewhere somehow
-    float firstInterval, intervalSizes; // int?
+    float firstInterval = 0, intervalSizes = 0;
     if(type == CONTINOUS) {
         string tmp;
         cout << " Start of the first interval: ";
@@ -26,57 +26,92 @@ Sample::Sample(string filename, unsigned column) {
         intervalSizes = StringUtils::stringToFloat(tmp); // TODO Handle invalid input
     }
 
-    struct FloatIntervalPredicate {
-        const float f;
-        const float firstInterval;
-        const float intervalSizes;
-        FloatIntervalPredicate(float f, float firstInterval, float intervalSizes)
-            : f(f), firstInterval(firstInterval), intervalSizes(intervalSizes) {}
-        bool test(Data* d) {
-            float target = static_cast<Data1D>(*d).value;
-            return true;
-        }
-    };
-
-    struct FloatPredicate {
-        const float f;
-        FloatPredicate(float f) : f(f) {}
-        bool test(Data* d) {
-            return static_cast<Data1D>(*d).value == this->f;
-        }
-    };
-
-    SortedList<Data*> data(Data1DPointerComparator());
+    // Read all the data from the file in a sorted list
+    SortedList<float> dataRead;
     while(!it.end()) {
         List<string> columns = StringUtils::split(it.get(), ':');
         float value = StringUtils::stringToFloat(columns[column -1]);
+        dataRead.add(value);
+    }
 
-        // Only reading one column
-        Optional<Data*> d = data.getFirstMatching(
-            type == CONTINOUS
-                ? FloatIntervalPredicate(value, firstInterval, intervalSizes)
-                : FloatPredicate(value)
-        );
-        // TODO If contains, add to existing Data1D instead of the list
-        if(d.hasValue()) {
-            static_cast<Data1D&>(d.get()).add(1);
-        } else {
-            data.add(new Data1D(1, value));
+    // Count the data and move them to a List<Data*>
+    List<Data*> data;
+    unsigned totalCount = 0;
+    if(type == DISCRETE) {
+        ConstIterator<float> it(dataRead);
+        float prev = (it++).get();
+        unsigned count = 1;
+        while(!it.end()) {
+            if(it.get() == prev) {
+                ++count;
+            } else {
+                data.add(new Data1D(count, prev));
+                totalCount += count;
+                prev = it.get();
+                count = 1;
+            }
+            ++it;
+        }
+    } else {
+        ConstIterator<float> it(dataRead);
+        Sanity::truthness(it.get() >= firstInterval, "WHY YOU GIVE STUPID VALUES?");
+        float prev = firstInterval;
+        unsigned count = 0;
+        while(!it.end()) {
+            while(it.get() < prev + intervalSizes && !it.end()) {
+                ++count;
+                ++it;
+            }
+            data.add(new Data1D(count, prev));
+            totalCount += count;
+            count = 0;
+            prev += intervalSizes;
         }
     }
 
-    // TODO Params with that
     if(type == DISCRETE) {
-        this->dataSource = new DiscreteDataSource();
+        this->dataSource = new DiscreteDataSource(name, subject, totalCount, data);
     } else {
-        // Copy to another list and add empty intervals
-        List<Data*> dataWithEmptyIntervals;
-        this->dataSource = new ContinousDataSource();
+        this->dataSource = new ContinousDataSource(
+            name, subject, totalCount,
+            data, firstInterval, intervalSizes
+        );
     }
 }
 
 Sample::Sample(string filename, unsigned column1, unsigned column2) {
-    // TODO
+    ifstream is(filename.c_str(), ios::in);
+    Sanity::streamness(is, "Couldn't open " + filename);
+
+    // These are the real indexes
+    --column1;
+    --column2;
+
+    List<string> lines = StreamUtils::readLines(is);
+    ConstIterator<string> it(lines);
+
+    string name = (it++).get();
+    List<string> subjects = StringUtils::split((it++).get(), ':');
+    List<string> types = StringUtils::split((it++).get(), ':');
+
+    List<Data*> data;
+
+    while(!it.end()) {
+        List<string> values = StringUtils::split(it.get(), ':');
+        data.add(new Data2D(
+            StringUtils::stringToFloat(values[column1]),
+            StringUtils::stringToFloat(values[column2])
+        ));
+    }
+
+    this->dataSource = new DataSource2D(
+        name,
+        subjects[column1],
+        subjects[column2],
+        types[column1] == "C" ? CONTINOUS : DISCRETE,
+        types[column2] == "C" ? CONTINOUS : DISCRETE,
+        data
+    );
 }
 
 Sample::Sample(const Sample& p) {
@@ -94,6 +129,8 @@ Sample::~Sample() {
 }
 
 void Sample::display() const {
+    // TODO
+    //this->dataSource->display();
 }
 
 Sample& Sample::operator=(Sample sample) {

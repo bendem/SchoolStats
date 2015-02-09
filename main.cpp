@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
             cout << "Etude 1D" << endl;
             E1 = new Sample(argv[1], 1);
             E1->display();
-            //StatisticalSerie1D C1D(E1);
+            StatisticalSerie1D C1D(E1);
             //C1D.displayReport();
             break;
         case 3:
