@@ -21,4 +21,5 @@ DataSource& DataSource::operator=(const DataSource& p) {
     this->name = p.name;
     this->subject = p.subject;
     this->totalEffective = p.totalEffective;
+    return *this;
 }
