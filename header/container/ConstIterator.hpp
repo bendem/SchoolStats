@@ -33,7 +33,7 @@ public:
     *
     * If this returns true, the currently selected element is null!
     */
-    bool end();
+    bool end() const;
 
     /**
     * Resets the position of the iterator in the list to the first element.
@@ -61,7 +61,7 @@ template<class T>
 ConstIterator<T>::~ConstIterator() {}
 
 template<class T>
-bool ConstIterator<T>::end() {
+bool ConstIterator<T>::end() const {
     return this->current == NULL;
 }
 

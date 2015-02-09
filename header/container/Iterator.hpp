@@ -34,7 +34,7 @@ public:
     *
     * If this returns true, the currently selected element is null!
     */
-    bool end();
+    bool end() const;
 
     /**
     * Resets the position of the iterator in the list to the first element.
@@ -68,7 +68,7 @@ template<class T>
 Iterator<T>::~Iterator() {}
 
 template<class T>
-bool Iterator<T>::end() {
+bool Iterator<T>::end() const {
     return this->current == NULL;
 }
 

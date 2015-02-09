@@ -15,6 +15,9 @@ public:
 
     Data2D& operator=(const Data2D&);
 
+    float getValue1() const;
+    float getValue2() const;
+
 };
 
 #endif

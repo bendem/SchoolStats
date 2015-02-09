@@ -4,8 +4,6 @@
 #include "data/Data.hpp"
 #include "utils/Comparable.hpp"
 
-struct Data1DPointerComparator;
-
 class Data1D : public Data, public Comparable<Data1D> {
 
 private:
@@ -25,14 +23,6 @@ public:
 
     Data1D& operator=(const Data1D&);
 
-    friend struct Data1DPointerComparator;
-
-};
-
-struct Data1DPointerComparator {
-    int operator()(Data* d1, Data* d2) {
-        return static_cast<Data1D*>(d1)->compareTo(*static_cast<Data1D*>(d2));
-    }
 };
 
 #endif
