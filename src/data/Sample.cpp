@@ -26,18 +26,42 @@ Sample::Sample(string filename, unsigned column) {
         intervalSizes = StringUtils::stringToFloat(tmp); // TODO Handle invalid input
     }
 
+    struct FloatIntervalPredicate {
+        const float f;
+        const float firstInterval;
+        const float intervalSizes;
+        FloatIntervalPredicate(float f, float firstInterval, float intervalSizes)
+            : f(f), firstInterval(firstInterval), intervalSizes(intervalSizes) {}
+        bool test(Data* d) {
+            float target = static_cast<Data1D>(*d).value;
+            return true;
+        }
+    };
+
+    struct FloatPredicate {
+        const float f;
+        FloatPredicate(float f) : f(f) {}
+        bool test(Data* d) {
+            return static_cast<Data1D>(*d).value == this->f;
+        }
+    };
+
     SortedList<Data*> data(Data1DPointerComparator());
     while(!it.end()) {
         List<string> columns = StringUtils::split(it.get(), ':');
-        float c1 = StringUtils::stringToFloat(columns[column -1]);
+        float value = StringUtils::stringToFloat(columns[column -1]);
 
         // Only reading one column
-        Optional<Data*> d = data.getFirstMatching(type == CONTINOUS ? /* Look for interval */ : /* Look for value */);
+        Optional<Data*> d = data.getFirstMatching(
+            type == CONTINOUS
+                ? FloatIntervalPredicate(value, firstInterval, intervalSizes)
+                : FloatPredicate(value)
+        );
         // TODO If contains, add to existing Data1D instead of the list
         if(d.hasValue()) {
             static_cast<Data1D&>(d.get()).add(1);
         } else {
-            data.add(new Data1D(1, c1));
+            data.add(new Data1D(1, value));
         }
     }
 

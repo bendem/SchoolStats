@@ -10,11 +10,11 @@ private:
 
 public:
     SortedList(const C& comparator) : comparator(comparator) {}
-    SortedList(const SortedList& p) : List<T>(p), comparator(p.comparator) {}
+    SortedList(const SortedList<T, C>& p) : List<T>(p), comparator(p.comparator) {}
 
     void add(const T&);
 
-    SortedList& operator=(SortedList);
+    SortedList<T, C>& operator=(SortedList<T, C>);
 };
 
 template<class T, class C>
@@ -41,7 +41,7 @@ void SortedList<T, C>::add(const T& param) {
 }
 
 template<class T, class C>
-SortedList& SortedList<T, C>::operator=(SortedList l) {
+SortedList<T, C>& SortedList<T, C>::operator=(SortedList<T, C> l) {
     List<T>::operator=(l);
     this->comparator = l.comparator;
     return *this;
