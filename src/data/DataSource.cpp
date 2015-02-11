@@ -17,8 +17,12 @@ DataSource::DataSource(const DataSource& p) {
 
 DataSource::~DataSource() {}
 
-const List<Data*>& DataSource::getData() const{
-    return *this->data;
+inline const List<Data*>& DataSource::getData() const {
+    return this->data;
+}
+
+inline unsigned DataSource::getTotalCount() const {
+    return this->totalCount;
 }
 
 DataSource& DataSource::operator=(const DataSource& p) {

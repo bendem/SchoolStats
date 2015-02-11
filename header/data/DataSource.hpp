@@ -27,6 +27,7 @@ public:
     virtual ~DataSource() = 0;
 
     const List<Data*>& getData() const;
+    unsigned getTotalCount() const;
 
     DataSource& operator=(const DataSource&);
 

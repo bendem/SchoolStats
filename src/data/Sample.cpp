@@ -128,7 +128,7 @@ Sample::~Sample() {
     delete this->dataSource;
 }
 
-const DataSource& Sample::getDataSource() const{
+inline const DataSource& Sample::getDataSource() const {
     return *this->dataSource;
 }
 

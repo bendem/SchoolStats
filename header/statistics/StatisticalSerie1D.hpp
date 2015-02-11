@@ -1,6 +1,7 @@
 #ifndef STATSTICALSERIE1D_HPP
 #define STATSTICALSERIE1D_HPP
 
+#include "data/Data1DIterator.hpp"
 #include "data/Sample.hpp"
 
 class StatisticalSerie1D {
