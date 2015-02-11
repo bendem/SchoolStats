@@ -17,7 +17,7 @@ class DataSource {
 protected:
     string name;
     string subject;
-    unsigned totalEffective;
+    unsigned totalCount;
     DataSourceType type;
     List<Data*> data;
 
@@ -25,6 +25,8 @@ public:
     DataSource(string, string, unsigned, DataSourceType, const List<Data*>&);
     DataSource(const DataSource&);
     virtual ~DataSource() = 0;
+
+    const List<Data*>& getData() const;
 
     DataSource& operator=(const DataSource&);
 

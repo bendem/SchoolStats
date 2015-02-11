@@ -17,6 +17,17 @@ private:
 public:
     StatisticalSerie1D(Sample*);
 
+    void computeMode();
+    void computeAverage();
+    void computeMedian();
+
+    void computeStandardDeviation();
+    void computeRange();
+    void computeCoefficientOfVariation();
+
+
+    void displayReport();
+
 };
 
 #endif

@@ -26,6 +26,7 @@ public:
     Sample(const Sample&);
     ~Sample();
 
+    const DataSource& getDataSource() const;
     void display() const;
 
     Sample& operator=(Sample);
