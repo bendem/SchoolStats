@@ -15,14 +15,22 @@ public:
     Data1D(const Data1D&);
 
     Data1D& add(unsigned);
+
     unsigned getCount() const;
     float getValue() const;
-
 
     int compareTo(const Data1D&) const;
 
     Data1D& operator=(const Data1D&);
 
 };
+
+inline unsigned Data1D::getCount() const {
+    return this->count;
+}
+
+inline float Data1D::getValue() const {
+    return this->value;
+}
 
 #endif

@@ -20,4 +20,12 @@ public:
 
 };
 
+inline float Data2D::getValue1() const {
+    return value1;
+}
+
+inline float Data2D::getValue2() const {
+    return value2;
+}
+
 #endif

@@ -4,6 +4,7 @@
 #include "container/ConstIterator.hpp"
 #include "data/Data.hpp"
 
+template<class T>
 class DataIterator {
 
 protected:
@@ -14,9 +15,27 @@ public:
     DataIterator(const DataIterator& p) : iterator(p.iterator) {}
 
     bool end() const;
-    DataIterator& operator++();
-    DataIterator operator++(int);
+    T& operator++();
+    T operator++(int);
 
 };
+
+template<class T>
+inline bool DataIterator<T>::end() const {
+    return iterator.end();
+}
+
+template<class T>
+T& DataIterator<T>::operator++() {
+    ++this->iterator;
+    return static_cast<T&>(*this);
+}
+
+template<class T>
+T DataIterator<T>::operator++(int) {
+    T tmp(static_cast<T&>(*this));
+    ++this->iterator;
+    return tmp;
+}
 
 #endif

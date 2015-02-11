@@ -17,18 +17,6 @@ DataSource::DataSource(const DataSource& p) {
 
 DataSource::~DataSource() {}
 
-inline const List<Data*>& DataSource::getData() const {
-    return this->data;
-}
-
-inline unsigned DataSource::getTotalCount() const {
-    return this->totalCount;
-}
-
-inline DataSourceType DataSource::getType() const {
-    return this->type;
-}
-
 DataSource& DataSource::operator=(const DataSource& p) {
     this->name = p.name;
     this->subject = p.subject;

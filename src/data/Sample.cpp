@@ -128,10 +128,6 @@ Sample::~Sample() {
     delete this->dataSource;
 }
 
-inline const DataSource& Sample::getDataSource() const {
-    return *this->dataSource;
-}
-
 void Sample::display() const {
     // TODO
     //this->dataSource->display();

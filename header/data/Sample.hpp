@@ -33,4 +33,8 @@ public:
 
 };
 
+inline const DataSource& Sample::getDataSource() const {
+    return *this->dataSource;
+}
+
 #endif

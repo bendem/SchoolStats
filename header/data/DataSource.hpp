@@ -34,4 +34,16 @@ public:
 
 };
 
+inline const List<Data*>& DataSource::getData() const {
+    return this->data;
+}
+
+inline unsigned DataSource::getTotalCount() const {
+    return this->totalCount;
+}
+
+inline DataSourceType DataSource::getType() const {
+    return this->type;
+}
+
 #endif
