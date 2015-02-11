@@ -97,7 +97,7 @@ float StringUtils::stringToFloat(string str) {
         return result;
     }
 
-    return result / pow((double) 10, (double) decCount);
+    return result / pow(10.0f, decCount);
 }
 
 List<string> StringUtils::split(string str, char delim) {
