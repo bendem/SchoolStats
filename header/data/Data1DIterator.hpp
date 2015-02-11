@@ -10,7 +10,7 @@ public:
     Data1DIterator(const List<Data*>& data) : DataIterator(data) {}
 
     float getX() const;
-    float getY() const;
+    unsigned getY() const;
 
 };
 
