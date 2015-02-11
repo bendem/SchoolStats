@@ -28,6 +28,7 @@ public:
 
     const List<Data*>& getData() const;
     unsigned getTotalCount() const;
+    DataSourceType getType() const;
 
     DataSource& operator=(const DataSource&);
 

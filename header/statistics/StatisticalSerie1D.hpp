@@ -8,6 +8,7 @@ class StatisticalSerie1D {
 
 private:
     Sample* sample;
+    const DataSource& dataSource;
     float mode[3];
     float average;
     float median;
