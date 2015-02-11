@@ -29,7 +29,7 @@ void StatisticalSerie1D::computeAverage() {
     float sum = 0;
 
     while(!it.end()){
-        sum += (it.getX() * it.getY());
+        sum += it.getX() * it.getY();
         ++it;
     }
 
