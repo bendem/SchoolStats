@@ -7,6 +7,7 @@ StatisticalSerie1D::StatisticalSerie1D(Sample* sample)
     this->computeMedian();
     this->computeStandardDeviation();
     this->computeRange();
+    this->computeCoefficientOfVariation();
 }
 
 void StatisticalSerie1D::computeMode() {
