@@ -12,6 +12,17 @@ private:
 public:
     ContinousDataSource(string, string, unsigned, const List<Data*>&, float, float);
 
+    float getFirstInterval() const;
+    float getIntervalSizes() const;
+
 };
+
+inline float ContinousDataSource::getFirstInterval() const {
+    return this->firstInterval;
+}
+
+inline float ContinousDataSource::getIntervalSizes() const {
+    return this->intervalSizes;
+}
 
 #endif

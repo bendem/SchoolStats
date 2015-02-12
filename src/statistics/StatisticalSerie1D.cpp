@@ -1,7 +1,13 @@
 #include "statistics/StatisticalSerie1D.hpp"
 
 StatisticalSerie1D::StatisticalSerie1D(Sample* sample)
-    : sample(sample), dataSource(sample->getDataSource()) {}
+        : sample(sample), dataSource(sample->getDataSource()) {
+    this->computeMode();
+    this->computeAverage();
+    this->computeMedian();
+    this->computeStandardDeviation();
+    this->computeStandardDeviation();
+}
 
 void StatisticalSerie1D::computeMode() {
     Data1DIterator it(this->dataSource.getData());
@@ -38,22 +44,41 @@ void StatisticalSerie1D::computeAverage() {
 
 void StatisticalSerie1D::computeMedian() {
     const List<Data*>& data(this->dataSource.getData());
+    unsigned totalCount = this->dataSource.getTotalCount();
+    unsigned middle = totalCount / 2;
 
     // Discrete stuff is easy
     if(this->dataSource.getType() == DISCRETE) {
-        if(this->dataSource.getTotalCount() % 2 == 0) {
-            this->median = static_cast<Data1D*>(data.get(data.size() / 2 + 1))->getValue();
+        if(totalCount % 2 == 0) {
+            this->median = static_cast<Data1D*>(data.get(middle + 1))->getValue();
         } else {
             this->median = (
-                static_cast<Data1D*>(data.get(data.size() / 2))->getValue() +
-                    static_cast<Data1D*>(data.get(data.size() / 2 + 1))->getValue()
+                static_cast<Data1D*>(data.get(middle))->getValue() +
+                static_cast<Data1D*>(data.get(middle + 1))->getValue()
             ) / 2;
         }
         return;
     }
 
     // Continous stuff is less easy
-    // TODO Write less easy stuff
+
+    // Looking up the interval containing the median
+    Data1DIterator it(data);
+    unsigned count = 0;
+    const Data1D* data1D = NULL;
+    while(!it.end()) {
+        data1D = it++.get();
+        if(count + data1D->getCount() > middle) {
+            break;
+        }
+        count += data1D->getCount(); // Accumulate counts in intervals
+    }
+
+    Sanity::truthness(data1D != NULL, "Middle interval of continous data not found when computing median");
+
+    this->median = data1D->getValue() // Start of interval
+        + static_cast<const ContinousDataSource&>(this->dataSource).getIntervalSizes() / data1D->getCount()
+        * (data1D->getCount() - (middle - count)); // Position of the middle in the interval
 }
 
 void StatisticalSerie1D::computeStandardDeviation() {
@@ -75,7 +100,4 @@ void StatisticalSerie1D::computeRange() {
 
 void StatisticalSerie1D::computeCoefficientOfVariation() {
     this->coefficientOfVariation = this->standardDeviation / this->average / 100;
-}
-
-void StatisticalSerie1D::displayReport() {
 }
