@@ -6,7 +6,7 @@ StatisticalSerie1D::StatisticalSerie1D(Sample* sample)
     this->computeAverage();
     this->computeMedian();
     this->computeStandardDeviation();
-    this->computeStandardDeviation();
+    this->computeRange();
 }
 
 void StatisticalSerie1D::computeMode() {
@@ -95,7 +95,8 @@ void StatisticalSerie1D::computeStandardDeviation() {
 
 void StatisticalSerie1D::computeRange() {
     const List<Data*>& data(this->dataSource.getData());
-    this->range = data.get(data.size() - 1) - data.get(0);
+    this->range = static_cast<Data1D*>(data.get(data.size() - 1))->getValue()
+        - static_cast<Data1D*>(data.get(0))->getValue();
 }
 
 void StatisticalSerie1D::computeCoefficientOfVariation() {
