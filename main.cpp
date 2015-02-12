@@ -12,23 +12,31 @@ int main(int argc, char* argv[]) {
     streambuf* old = cerr.rdbuf(x.rdbuf());
     cerr << "Application starting" << endl;
 
-    Sample* E1 = NULL;
+    Sample* sample = NULL;
     switch(argc) {
         case 2:
         case 3: {
             cout << "Etude 1D" << endl;
             cerr << "Building 1D sample" << endl;
-            E1 = new Sample(argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2]));
-            E1->display();
+            sample = new Sample(argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2]));
+            sample->display();
             cerr << "Building StatisticalSerie1D" << endl;
-            StatisticalSerie1D C1D(E1);
-            //C1D.displayReport();
+            StatisticalSerie1D c1D(sample);
+            cout
+                << "avg: " << c1D.getAverage() << endl
+                << "cov: " << c1D.getCoefficientOfVariation() << endl
+                << "med: " << c1D.getMedian() << endl
+                << "mod: " << c1D.getMode()[0] << ", " << c1D.getMode()[1] << ", " << c1D.getMode()[2] << endl
+                << "ran: " << c1D.getRange() << endl
+                << "std: " << c1D.getStandardDeviation() << endl
+                ;
+            //c1D.displayReport();
             break;
         }
         case 4: {
             cout << "Etude 2D" << endl;
             cerr << "Buidling 2D sample" << endl;
-            E1 = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
+            sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
             cerr << "Building StatisticalSerie2D" << endl;
             //StatisticalSerie2D C2D(E1);
             //C2D.display();
@@ -38,7 +46,7 @@ int main(int argc, char* argv[]) {
     }
 
     cerr << "Cleaning up" << endl;
-    delete E1;
+    delete sample;
 
     cerr << "Restoring cerr buffer" << endl;
     cerr.rdbuf(old);

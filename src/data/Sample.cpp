@@ -107,6 +107,7 @@ Sample::Sample(string filename, unsigned column1, unsigned column2) {
             StringUtils::stringToFloat(values[column1]),
             StringUtils::stringToFloat(values[column2])
         ));
+        ++it;
     }
 
     cerr << "Creating data source" << endl;
