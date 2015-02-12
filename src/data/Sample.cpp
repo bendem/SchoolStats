@@ -61,7 +61,7 @@ Sample::Sample(string filename, unsigned column) {
         float prev = firstInterval;
         unsigned count = 0;
         while(!it.end()) {
-            while(it.get() < prev + intervalSizes && !it.end()) {
+            while(!it.end() && it.get() < prev + intervalSizes) {
                 ++count;
                 ++it;
             }
