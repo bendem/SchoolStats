@@ -72,12 +72,13 @@ void ConstIterator<T>::reset() {
 
 template<class T>
 const T& ConstIterator<T>::get() const {
+    Sanity::nullness(this->current, "No current value");
     return this->current->value;
 }
 
 template<class T>
 ConstIterator<T>& ConstIterator<T>::operator++() {
-    Sanity::nullness(this->current, "Outside of the list");
+    Sanity::nullness(this->current, "Moving past the end of the list");
 
     this->current = this->current->next;
     return *this;
@@ -85,7 +86,7 @@ ConstIterator<T>& ConstIterator<T>::operator++() {
 
 template<class T>
 ConstIterator<T> ConstIterator<T>::operator++(int) {
-    Sanity::nullness(this->current, "Outside of the list");
+    Sanity::nullness(this->current, "Moving past the end of the list");
 
     ConstIterator<T> tmp(*this);
     this->current = this->current->next;
@@ -94,11 +95,13 @@ ConstIterator<T> ConstIterator<T>::operator++(int) {
 
 template<class T>
 ConstIterator<T>::operator T() {
+    Sanity::nullness(this->current, "No current value");
     return this->current->value;
 }
 
 template<class T>
 const T& ConstIterator<T>::operator&() const {
+    Sanity::nullness(this->current, "No current value");
     return this->current->value;
 }
 

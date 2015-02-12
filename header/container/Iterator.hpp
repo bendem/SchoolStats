@@ -80,11 +80,14 @@ void Iterator<T>::reset() {
 
 template<class T>
 T& Iterator<T>::get() {
+    Sanity::nullness(this->current, "No current value");
     return this->current->value;
 }
 
 template<class T>
 T Iterator<T>::remove() {
+    Sanity::nullness(this->current, "No current value");
+
     T elem(this->current->value);
 
     if(!this->prec) {
@@ -104,7 +107,7 @@ T Iterator<T>::remove() {
 
 template<class T>
 Iterator<T>& Iterator<T>::operator++() {
-    Sanity::nullness(this->current, "Outside of the iterator");
+    Sanity::nullness(this->current, "Moving past the end of the list");
 
     this->prec = this->current;
     this->current = this->current->next;
@@ -113,7 +116,7 @@ Iterator<T>& Iterator<T>::operator++() {
 
 template<class T>
 Iterator<T> Iterator<T>::operator++(int) {
-    Sanity::nullness(this->current, "Outside of the iterator");
+    Sanity::nullness(this->current, "Moving past the end of the list");
 
     Iterator<T> tmp(*this);
     this->prec = this->current;
@@ -123,11 +126,13 @@ Iterator<T> Iterator<T>::operator++(int) {
 
 template<class T>
 Iterator<T>::operator T() {
+    Sanity::nullness(this->current, "No current value");
     return this->current->value;
 }
 
 template<class T>
 T& Iterator<T>::operator&() {
+    Sanity::nullness(this->current, "No current value");
     return this->current->value;
 }
 
@@ -138,6 +143,5 @@ Iterator<T>& Iterator<T>::operator=(Iterator<T> const& param) {
     this->prec = param.prec;
     return *this;
 }
-
 
 #endif
