@@ -102,7 +102,7 @@ float StringUtils::stringToFloat(string str) {
 
 List<string> StringUtils::split(string str, char delim) {
     List<string> elems;
-    stringstream ss(str);
+    istringstream ss(str);
     string item;
     while(getline(ss, item, delim)) {
         elems.add(item);

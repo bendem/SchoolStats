@@ -1,6 +1,8 @@
 #ifndef STATSTICALSERIE2D_HPP
 #define STATSTICALSERIE2D_HPP
 
+#include "data/Sample.hpp"
+
 class StatisticalSerie2D {
 private:
     Sample* sample;
