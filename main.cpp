@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 #include "data/Sample.hpp"
 #include "statistics/StatisticalSerie1D.hpp"
@@ -23,12 +24,12 @@ int main(int argc, char* argv[]) {
             cerr << "Building StatisticalSerie1D" << endl;
             StatisticalSerie1D c1D(sample);
             cout
-                << "avg: " << c1D.getAverage() << endl
-                << "cov: " << c1D.getCoefficientOfVariation() << endl
-                << "med: " << c1D.getMedian() << endl
-                << "mod: " << c1D.getMode()[0] << ", " << c1D.getMode()[1] << ", " << c1D.getMode()[2] << endl
-                << "ran: " << c1D.getRange() << endl
-                << "std: " << c1D.getStandardDeviation() << endl
+                << "\tavg: " << setw(15) << setfill(' ') << c1D.getAverage() << endl
+                << "\tcov: " << setw(15) << setfill(' ') << c1D.getCoefficientOfVariation() << endl
+                << "\tmed: " << setw(15) << setfill(' ') << c1D.getMedian() << endl
+                << "\tmod: " << setw(11) << setfill(' ') << c1D.getMode()[0] << ", " << c1D.getMode()[1] << ", " << c1D.getMode()[2] << endl
+                << "\tran: " << setw(15) << setfill(' ') << c1D.getRange() << endl
+                << "\tstd: " << setw(15) << setfill(' ') << c1D.getStandardDeviation() << endl
                 ;
             //c1D.displayReport();
             break;
@@ -43,6 +44,8 @@ int main(int argc, char* argv[]) {
             //C2D.forecast();
             break;
         }
+        default:
+            cout << "Invalid number of arguments" << endl;
     }
 
     cerr << "Cleaning up" << endl;
