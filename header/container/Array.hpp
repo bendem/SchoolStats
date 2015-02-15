@@ -20,6 +20,9 @@ public:
     const T& operator[](unsigned i) const;
     Array<T, S>& operator=(Array<T, S>);
 
+    bool operator==(const Array<T, S>&) const;
+    bool operator!=(const Array<T, S>&) const;
+
 };
 
 template<class T, unsigned S>
@@ -58,6 +61,21 @@ template<class T, unsigned S>
 Array<T, S>& Array<T, S>::operator=(Array<T, S> p) {
     std::swap(this->array, p.array);
     return *this;
+}
+
+template<class T, unsigned S>
+bool Array<T, S>::operator==(const Array<T, S>& p) const {
+    for(unsigned i = 0; i < S; ++i) {
+        if(this->array[i] != p.array[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template<class T, unsigned S>
+bool Array<T, S>::operator!=(const Array<T, S>& p) const {
+    return *this == p;
 }
 
 #endif
