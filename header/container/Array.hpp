@@ -54,6 +54,4 @@ Array<T, S>& Array<T, S>::operator=(Array<T, S> p) {
     return *this;
 }
 
-
-
 #endif
