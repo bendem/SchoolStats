@@ -1,6 +1,7 @@
 #ifndef STATSTICALSERIE1D_HPP
 #define STATSTICALSERIE1D_HPP
 
+#include "container/Array.hpp"
 #include "data/Data1DIterator.hpp"
 #include "data/Sample.hpp"
 
@@ -9,7 +10,7 @@ class StatisticalSerie1D {
 private:
     Sample* sample;
     const DataSource& dataSource;
-    float mode[3];
+    Array<float, 3> mode;
     float average;
     float median;
     float standardDeviation; // Écart type
@@ -26,7 +27,7 @@ private:
 public:
     StatisticalSerie1D(Sample*);
 
-    const float* getMode() const;
+    const Array<float, 3> getMode() const;
     float getAverage() const;
     float getMedian() const;
     float getStandardDeviation() const;
@@ -35,7 +36,7 @@ public:
 
 };
 
-inline const float* StatisticalSerie1D::getMode() const {
+inline const Array<float, 3> StatisticalSerie1D::getMode() const {
     return this->mode;
 }
 

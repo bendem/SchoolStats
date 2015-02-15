@@ -12,7 +12,7 @@ StatisticalSerie1D::StatisticalSerie1D(Sample* sample)
 
 void StatisticalSerie1D::computeMode() {
     Data1DIterator it(this->dataSource.getData());
-    fill(this->mode, this->mode + 3, 0);
+    fill(&this->mode[0], &this->mode[3], 0);
     unsigned highestCount = 0;
     unsigned currentMode = 0;
 
