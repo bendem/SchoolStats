@@ -14,6 +14,7 @@ public:
 
     unsigned size() const;
     bool empty() const;
+    void fill(const T&);
 
     T& operator[](unsigned i);
     const T& operator[](unsigned i) const;
@@ -36,6 +37,11 @@ inline unsigned Array<T, S>::size() const {
 template<class T, unsigned S>
 inline bool Array<T, S>::empty() const {
     return S == 0;
+}
+
+template<class T, unsigned S>
+inline void Array<T, S>::fill(const T& p) {
+    std::fill(this->array, this->array + S, p);
 }
 
 template<class T, unsigned S>
