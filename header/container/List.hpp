@@ -27,6 +27,7 @@ class List {
 
 protected:
     Node<T>* first;
+    Node<T>* last;
     unsigned nbElems;
 
 public:
@@ -96,12 +97,14 @@ public:
 template<class T>
 List<T>::List() {
     this->first = NULL;
+    this->last = NULL;
     this->nbElems = 0;
 }
 
 template<class T>
 List<T>::List(const List<T>& list) {
     this->first = NULL;
+    this->last = NULL;
     this->nbElems = 0;
 
     this->addAll(list);
@@ -120,14 +123,10 @@ void List<T>::add(const T& para) {
     if(!this->first) {
         // Adding first
         this->first = tmp;
-
+        this->last = tmp;
     } else {
         // Adding at the end
-        Node<T>* current = this->first;
-        while(current->next) {
-            current = current->next;
-        }
-        current->next = tmp;
+        this->last->next = tmp;
     }
     ++this->nbElems;
 }
@@ -151,6 +150,7 @@ void List<T>::clear() {
         delete prev;
     }
     this->first = NULL;
+    this->last = NULL;
     this->nbElems = 0;
 }
 
@@ -225,6 +225,7 @@ template<class T>
 List<T>& List<T>::operator=(List<T> list) {
     swap(this->nbElems, list.nbElems);
     swap(this->first, list.first);
+    swap(this->last, list.last);
     return *this;
 }
 
