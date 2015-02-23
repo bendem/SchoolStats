@@ -22,7 +22,7 @@ void StatisticalSerie1D::computeMode() {
             this->mode[0] = it.getX();
             highestCount = it.getY();
             currentMode = 1;
-        } else if(it.getY() == highestCount){
+        } else if(it.getY() == highestCount && currentMode < this->mode.size()) {
             this->mode[currentMode++] = it.getX();
         }
         ++it;

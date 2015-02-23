@@ -3,6 +3,9 @@
 
 #include <algorithm>
 
+#include "utils/Sanity.hpp"
+#include "utils/StringUtils.hpp"
+
 template<class T, unsigned S>
 class Array {
 private:
@@ -49,11 +52,13 @@ inline void Array<T, S>::fill(const T& p) {
 
 template<class T, unsigned S>
 inline T& Array<T, S>::operator[](unsigned i) {
+    Sanity::truthness(i < S, "Array out of bounds <" + StringUtils::toString(i) + ">");
     return this->array[i];
 }
 
 template<class T, unsigned S>
 inline const T& Array<T, S>::operator[](unsigned i) const {
+    Sanity::truthness(i < S, "Array out of bounds <" + StringUtils::toString(i) + ">");
     return this->array[i];
 }
 

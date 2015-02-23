@@ -18,6 +18,13 @@ public:
     static float stringToFloat(string);
     static List<string> split(string, char);
 
+    template<class T>
+    static string toString(const T& p) {
+        ostringstream is;
+        is << p;
+        return is.str();
+    }
+
 };
 
 #endif
