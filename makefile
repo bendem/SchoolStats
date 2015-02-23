@@ -18,6 +18,9 @@ OBJ:=$(FILES:$(HDR)/%.hpp=$(OUT)/%.o)
 
 build: | mkdir $(OUT)/main
 
+debug: FLA += -g
+debug: | clean build
+
 $(OUT)/main: main.cpp $(OBJ)
 	echo Compiling $@...
 	$(CXX) -o $@ $^
