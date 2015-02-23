@@ -142,6 +142,10 @@ void List<T>::addAll(const List& toAdd) {
 
 template<class T>
 void List<T>::clear() {
+    if(this->nbElems == 0) {
+        return;
+    }
+
     Node<T>* node = this->first;
     Node<T>* prev;
 

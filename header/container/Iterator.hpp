@@ -95,6 +95,9 @@ T Iterator<T>::remove() {
         this->list.first = this->current->next;
         delete this->current;
         this->current = this->list.first;
+        if(this->list.first == NULL) {
+            this->list.last = NULL;
+        }
     } else {
         this->prec->next = this->current->next;
         delete this->current;
