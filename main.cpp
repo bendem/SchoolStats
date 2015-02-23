@@ -9,6 +9,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
+    fstream x("application.log", ios::out | ios::trunc);
+    streambuf* old = cerr.rdbuf(x.rdbuf());
     cerr << "Application starting" << endl;
 
     Sample* sample = NULL;
@@ -58,5 +60,6 @@ int main(int argc, char* argv[]) {
     delete sample;
 
     cerr << "Restoring cerr buffer" << endl;
+    cerr.rdbuf(old);
     return 0;
 }
