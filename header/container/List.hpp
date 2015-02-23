@@ -127,6 +127,7 @@ void List<T>::add(const T& para) {
     } else {
         // Adding at the end
         this->last->next = tmp;
+        this->last = tmp;
     }
     ++this->nbElems;
 }
