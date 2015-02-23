@@ -2,6 +2,7 @@
 #define STATSTICALSERIE2D_HPP
 
 #include "data/Sample.hpp"
+#include "data/Data2DIterator.hpp"
 
 class StatisticalSerie2D {
 private:
