@@ -37,9 +37,17 @@ int main(int argc, char* argv[]) {
             cerr << "Buidling 2D sample" << endl;
             sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
             cerr << "Building StatisticalSerie2D" << endl;
-            //StatisticalSerie2D C2D(E1);
+            StatisticalSerie2D c2D(sample);
             //C2D.display();
             //C2D.forecast();
+            unsigned int choice = menu();
+            while(choice != 3) {
+                if(choice == 1) {
+                    c2D.forecast1();
+                } else if(choice == 2) {
+                    c2D.forecast2();
+                }
+            }
             break;
         }
         default:
