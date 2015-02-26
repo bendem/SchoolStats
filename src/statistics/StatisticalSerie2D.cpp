@@ -7,11 +7,25 @@ StatisticalSerie2D::StatisticalSerie2D(Sample* sample)
 }
 
 void StatisticalSerie2D::forecast1() {
-
+    string value;
+    float valueFloat, result;
+    
+    cout << "\tEnter a value for " << dataSource.getSubject() << ": ";
+    getline(cin, value, cin.widen('\n'));
+    valueFloat = StringUtils::stringToFloat(value);
+    result = coefficientA * valueFloat + coefficientB;
+    cout << "\tForecasted value = " << result << endl;
 }
 
 void StatisticalSerie2D::forecast2() {
-
+    string value;
+    float valueFloat, result;
+    
+    cout << "\tEnter a value for " << static_cast<const DataSource2D&>(dataSource).getSubject2() << ": ";
+    getline(cin, value, cin.widen('\n'));
+    valueFloat = StringUtils::stringToFloat(value);
+    result = (valueFloat - coefficientB) / coefficientA;
+    cout << "\tForecasted value = " << result << endl;
 }
 
 void StatisticalSerie2D::computeAverages() {

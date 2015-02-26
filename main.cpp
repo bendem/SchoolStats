@@ -44,14 +44,15 @@ int main(int argc, char* argv[]) {
             StatisticalSerie2D c2D(sample);
             //C2D.display();
             //C2D.forecast();
+            unsigned int choice;
             do {
-                unsigned int choice = menu(static_cast<const DataSource2D&>(sample->getDataSource()));
+                choice = menu(static_cast<const DataSource2D&>(sample->getDataSource()));
                 if(choice == 1) {
                     c2D.forecast1();
                 } else if(choice == 2) {
                     c2D.forecast2();
                 }
-            } while(choice != 3)
+            } while (choice != 3);
             break;
         }
         default:
