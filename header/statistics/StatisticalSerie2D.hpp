@@ -15,20 +15,35 @@ private:
 public:
     StatisticalSerie2D(Sample*);
 
-    void display();
-    void forecast();
-    int menu();
+    void forecast1();
+    void forecast2();
+
     void computeAverages();
     void computeCoefficient();
 
     float getCoefficientA() const;
-    void setCoefficientA(float coefficientA);
     float getCoefficientB() const;
-    void setCoefficientB(float coefficientB);
     float getAverageValue1() const;
-    void setAverageValue1(float averageValue1);
     float getAverageValue2() const;
-    void setAverageValue2(float averageValue2);
+
 };
+
+
+inline float StatisticalSerie2D::getCoefficientA() const {
+    return this->coefficientA;
+}
+
+inline float StatisticalSerie2D::getCoefficientB() const {
+    return this->coefficientB;
+}
+
+inline float StatisticalSerie2D::getAverageValue1() const {
+    return this->averageValue1;
+}
+
+inline float StatisticalSerie2D::getAverageValue2() const {
+    return this->averageValue2;
+}
+
 
 #endif

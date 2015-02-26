@@ -8,6 +8,8 @@
 
 using namespace std;
 
+unsigned int menu();
+
 int main(int argc, char* argv[]) {
     fstream x("application.log", ios::out | ios::trunc);
     streambuf* old = cerr.rdbuf(x.rdbuf());
@@ -61,5 +63,9 @@ int main(int argc, char* argv[]) {
 
     cerr << "Restoring cerr buffer" << endl;
     cerr.rdbuf(old);
+    return 0;
+}
+
+unsigned int menu() {
     return 0;
 }
