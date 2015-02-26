@@ -8,7 +8,7 @@
 
 using namespace std;
 
-unsigned int menu();
+unsigned int menu(const DataSource2D&);
 
 int main(int argc, char* argv[]) {
     fstream x("application.log", ios::out | ios::trunc);
@@ -44,14 +44,14 @@ int main(int argc, char* argv[]) {
             StatisticalSerie2D c2D(sample);
             //C2D.display();
             //C2D.forecast();
-            unsigned int choice = menu();
-            while(choice != 3) {
+            do {
+                unsigned int choice = menu(static_cast<const DataSource2D&>(sample->getDataSource()));
                 if(choice == 1) {
                     c2D.forecast1();
                 } else if(choice == 2) {
                     c2D.forecast2();
                 }
-            }
+            } while(choice != 3)
             break;
         }
         default:
@@ -66,6 +66,20 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-unsigned int menu() {
-    return 0;
+unsigned int menu(const DataSource2D& derp) {
+    string choice;
+    unsigned choiceInt = 0;
+
+    cout << "FORECAST" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << "\t1. Forecast for : " << derp.getSubject() << endl;
+    cout << "\t2. Forecast for : " << derp.getSubject2() << endl;
+    cout << "\t3. Exit" << endl;
+    cout << endl;
+    while(choiceInt > 3 || choiceInt < 1) {
+        cout << "Choice: ";
+        getline(cin, choice, cin.widen('\n'));
+        choiceInt = StringUtils::stringToUnsigned(choice);
+    }
+    return choiceInt;
 }

@@ -11,7 +11,12 @@ private:
 
 public:
     DataSource2D(string, string, string, DataSourceType, DataSourceType, const List<Data*>&);
+    string getSubject2() const;
 
 };
+
+inline string DataSource2D::getSubject2() const {
+    return this->subject2;
+}
 
 #endif

@@ -19,7 +19,7 @@ void StatisticalSerie2D::computeAverages() {
     float sumValue1 = 0;
     float sumValue2 = 0;
 
-    while(!it.end()){
+    while(!it.end()) {
         sumValue1 += it.getX();
         sumValue2 += it.getY();
         ++it;
@@ -31,16 +31,16 @@ void StatisticalSerie2D::computeAverages() {
 
 void StatisticalSerie2D::computeCoefficient() {
     Data2DIterator it(this->dataSource.getData());
-    float sumX=0;
-    float sumXX=0;
-    float sumY=0;
-    float sumXY=0;
+    float sumX = 0;
+    float sumXX = 0;
+    float sumY = 0;
+    float sumXY = 0;
 
-    while(!it.end()){
+    while(!it.end()) {
         sumX += it.getX();
-        sumXX += it.getX()*it.getX();
+        sumXX += it.getX() * it.getX();
         sumY += it.getY();
-        sumXY += it.getX()*it.getY();
+        sumXY += it.getX() * it.getY();
         ++it;
     }
 

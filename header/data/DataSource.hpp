@@ -29,6 +29,7 @@ public:
     const List<Data*>& getData() const;
     unsigned getTotalCount() const;
     DataSourceType getType() const;
+    string getSubject() const;
 
     DataSource& operator=(const DataSource&);
 
@@ -44,6 +45,10 @@ inline unsigned DataSource::getTotalCount() const {
 
 inline DataSourceType DataSource::getType() const {
     return this->type;
+}
+
+inline string DataSource::getSubject() const {
+    return this->subject;
 }
 
 #endif

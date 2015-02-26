@@ -3,6 +3,7 @@
 
 #include "data/Sample.hpp"
 #include "data/Data2DIterator.hpp"
+#include "utils/StringUtils.hpp"
 
 class StatisticalSerie2D {
 private:
