@@ -18,11 +18,15 @@ OBJ:=$(FILES:$(SRC)/%.cpp=$(OUT)/%.o)
 .PHONY: build clean mkdir
 
 build: | mkdir $(OUT)/main
+ui:    | mkdir $(OUT)/T
 
 release: FLA += -O2
-release: | clean build
+release: | clean build ui
 
 $(OUT)/main: main.cpp $(OBJ)
+	$(CXX) $(QT_FLA) -o $@ $^
+
+$(OUT)/T: T.cpp $(OBJ)
 	$(CXX) $(QT_FLA) -o $@ $^
 
 $(OUT)/ui/%.o: $(SRC)/ui/%.cpp $(HDR)/ui/%.hpp

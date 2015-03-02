@@ -1,8 +1,6 @@
 #include <iostream>
 
-#include <pthread.h>
 #include <errno.h>
-#include <unistd.h>
 
 #include <qapplication.h>
 
@@ -56,7 +54,7 @@ int main(int argc, char* argv[]) {
             perror("Err. de pthread_cond_init() :");
             exit(1);
         }
-        pthread_create(&Hand,NULL,Graph2D,(void*)E1->getDataSource());
+        pthread_create(&Hand,NULL,Graph2D,(void*)&E1->getDataSource());
         StatisticalSerie2D C2D(E1);
         if ((errno = pthread_mutex_lock(&Mutex)) != 0) {
             perror("Err. de pthread_mutex_lock() :");
