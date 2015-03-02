@@ -2,3 +2,4 @@
 target/
 CMakeLists.txt
 application.log
+*.txt
