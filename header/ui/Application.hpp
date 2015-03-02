@@ -1,5 +1,5 @@
-#ifndef FAFFICHAGE_HPP
-#define FAFFICHAGE_HPP
+#ifndef APPLICATION_HPP
+#define APPLICATION_HPP
 
 #include <qapplication.h>
 #include <qdialog.h>
@@ -17,12 +17,12 @@ class QPushButton;
 class QSpacerItem;
 class QVBoxLayout;
 
-class FAffichage : public QDialog {
+class Application : public QDialog {
 Q_OBJECT
 
 public:
-    FAffichage(DataSource2D*, QWidget* parent = 0, const char* name = 0, bool modal = false, WFlags flags = 0);
-    ~FAffichage();
+    Application(DataSource2D*, QWidget* parent = 0, const char* name = 0, bool modal = false, WFlags flags = 0);
+    ~Application();
 
     QPushButton* doneButton;
     QPushButton* drawButton;

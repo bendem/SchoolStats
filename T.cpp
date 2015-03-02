@@ -8,11 +8,11 @@
 #include "data/Sample.hpp"
 #include "statistics/StatisticalSerie1D.hpp"
 #include "statistics/StatisticalSerie2D.hpp"
-#include "ui/faffichage.hpp"
+#include "ui/Application.hpp"
 
 void *Graph2D(void* D);
 
-FAffichage* F1;
+Application* F1;
 int	again = 1;
 
 Sample* E1;
@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
 void *Graph2D(void* D) {
     DataSource2D* DD = static_cast<DataSource2D*>(D);
     QApplication a( Argc, Argv );
-    F1 = new FAffichage(DD);
+    F1 = new Application(DD);
     F1->show();
     a.exec();
     return NULL;

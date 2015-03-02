@@ -1,37 +1,28 @@
-/****************************************************************************
-** Form implementation generated from reading ui file 'faffichage.ui'
-**
-** Created: dim. déc. 4 20:55:04 2011
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
-**
-** WARNING! All changes made in this file will be lost!
-****************************************************************************/
-
-#include "ui/faffichage.hpp"
-
 #include <qpainter.h>
 #include <qpushbutton.h>
 #include <qframe.h>
 #include <qlayout.h>
 #include <qwhatsthis.h>
 
+#include "ui/Application.hpp"
+
 extern pthread_cond_t Cond;
 extern pthread_mutex_t Mutex;
 extern int again;
 
 /*
- *  Constructs a FAffichage as a child of 'parent', with the
+ *  Constructs a Application as a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'.
  *
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-FAffichage::FAffichage(DataSource2D* D, QWidget* parent, const char* name, bool modal, WFlags flags)
+Application::Application(DataSource2D* D, QWidget* parent, const char* name, bool modal, WFlags flags)
     : QDialog(parent, name, modal, flags),
       d1(static_cast<Data2D&>(*D->getData().get(0))), // TODO I have no idea
       d2(static_cast<Data2D&>(*D->getData().get(0))) {
     if(!name) {
-        setName("FAffichage");
+        setName("Application");
     }
 
     doneButton = new QPushButton("doneButton", this);
@@ -68,7 +59,7 @@ FAffichage::FAffichage(DataSource2D* D, QWidget* parent, const char* name, bool 
 /*
  *  Destroys the object and frees any allocated resources
  */
-FAffichage::~FAffichage() {
+Application::~Application() {
     // no need to delete child widgets, Qt does it all for us
     cout << "dans destructeur FAffiche" << endl;
 }
@@ -77,7 +68,7 @@ FAffichage::~FAffichage() {
  *  Sets the strings of the subwidgets using the current
  *  language.
  */
-void FAffichage::languageChange() {
+void Application::languageChange() {
     setCaption(tr("Data display"));
     doneButton->setText(tr("Done"));
     drawButton->setText(tr("Draw line"));
@@ -85,15 +76,15 @@ void FAffichage::languageChange() {
     refreshButton->setText(tr("Refresh"));
 }
 
-void FAffichage::refresh() {
-    qWarning("FAffichage::refresh()");
+void Application::refresh() {
+    qWarning("Application::refresh()");
     /* dessine les points de la liste
     ...
     */
 }
 
-void FAffichage::drawLine() {
-    qWarning("FAffichage::drawLine()");
+void Application::drawLine() {
+    qWarning("Application::drawLine()");
     /*
     QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
     paint.drawLine(,,,);
@@ -101,8 +92,8 @@ void FAffichage::drawLine() {
 
 }
 
-void FAffichage::done() {
-    qWarning("FAffichage::done(): Not implemented yet");
+void Application::done() {
+    qWarning("Application::done(): Not implemented yet");
     /*
     place une variable continue a 0 et signale au main
     ...
@@ -110,8 +101,8 @@ void FAffichage::done() {
     close();
 }
 
-void FAffichage::select() {
-    qWarning("FAffichage::select() ");
+void Application::select() {
+    qWarning("Application::select() ");
     /*
     QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
     paint.setPen(Qt::black);
@@ -127,10 +118,10 @@ void FAffichage::select() {
     */
 }
 
-void FAffichage::mouseMoveEvent(QMouseEvent* e) {
+void Application::mouseMoveEvent(QMouseEvent* e) {
 }
 
-void FAffichage::mouseReleaseEvent(QMouseEvent* e) {
+void Application::mouseReleaseEvent(QMouseEvent* e) {
     QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
     if(isMouseButtonDown) {
         endingPoint = e->pos();
@@ -143,7 +134,7 @@ void FAffichage::mouseReleaseEvent(QMouseEvent* e) {
     cout << "End: " << endingPoint.x() << " - " << endingPoint.y() << endl;
 }
 
-void FAffichage::mousePressEvent(QMouseEvent* e) {
+void Application::mousePressEvent(QMouseEvent* e) {
     QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
     if(!isMouseButtonDown) {
         startingPoint = e->pos();
@@ -159,30 +150,30 @@ void FAffichage::mousePressEvent(QMouseEvent* e) {
  * did stuff, you don't want to know
  * anything more.
  ************************************/
-const char* FAffichage::className() const {
-    return "FAffichage";
+const char* Application::className() const {
+    return "Application";
 }
 
-QMetaObject* FAffichage::metaObj = 0;
-static QMetaObjectCleanUp cleanUp_FAffichage("FAffichage", &FAffichage::staticMetaObject);
+QMetaObject* Application::metaObj = 0;
+static QMetaObjectCleanUp cleanUp_FAffichage("Application", &Application::staticMetaObject);
 
-QString FAffichage::tr(const char* s, const char* c) {
+QString Application::tr(const char* s, const char* c) {
     if(qApp) {
-        return qApp->translate("FAffichage", s, c, QApplication::DefaultCodec);
+        return qApp->translate("Application", s, c, QApplication::DefaultCodec);
     } else {
         return QString::fromLatin1(s);
     }
 }
 
-QString FAffichage::trUtf8(const char* s, const char* c) {
+QString Application::trUtf8(const char* s, const char* c) {
     if(qApp) {
-        return qApp->translate("FAffichage", s, c, QApplication::UnicodeUTF8);
+        return qApp->translate("Application", s, c, QApplication::UnicodeUTF8);
     } else {
         return QString::fromUtf8(s);
     }
 }
 
-QMetaObject* FAffichage::staticMetaObject() {
+QMetaObject* Application::staticMetaObject() {
     if(metaObj) {
         return metaObj;
     }
@@ -200,7 +191,7 @@ QMetaObject* FAffichage::staticMetaObject() {
         {"languageChange()", &slot_4, QMetaData::Protected}
     };
     metaObj = QMetaObject::new_metaobject(
-        "FAffichage", parentObject,
+        "Application", parentObject,
         slot_tbl, 5,
         0, 0,
 #ifndef QT_NO_PROPERTIES
@@ -212,14 +203,14 @@ QMetaObject* FAffichage::staticMetaObject() {
     return metaObj;
 }
 
-void* FAffichage::qt_cast(const char* clname) {
-    if(!qstrcmp(clname, "FAffichage")) {
+void* Application::qt_cast(const char* clname) {
+    if(!qstrcmp(clname, "Application")) {
         return this;
     }
     return QDialog::qt_cast(clname);
 }
 
-bool FAffichage::qt_invoke(int _id, QUObject* _o) {
+bool Application::qt_invoke(int _id, QUObject* _o) {
     switch(_id - staticMetaObject()->slotOffset()) {
         case 0:
             refresh();
@@ -242,17 +233,17 @@ bool FAffichage::qt_invoke(int _id, QUObject* _o) {
     return true;
 }
 
-bool FAffichage::qt_emit(int _id, QUObject* _o) {
+bool Application::qt_emit(int _id, QUObject* _o) {
     return QDialog::qt_emit(_id, _o);
 }
 
 #ifndef QT_NO_PROPERTIES
 
-bool FAffichage::qt_property(int id, int f, QVariant* v) {
+bool Application::qt_property(int id, int f, QVariant* v) {
     return QDialog::qt_property(id, f, v);
 }
 
-bool FAffichage::qt_static_property(QObject*, int, int, QVariant*) {
+bool Application::qt_static_property(QObject*, int, int, QVariant*) {
     return false;
 }
 
