@@ -2,6 +2,7 @@
 #define STATSTICALSERIE2D_HPP
 
 #include "data/Sample.hpp"
+#include "data/DataSource2D.hpp"
 #include "data/Data2DIterator.hpp"
 #include "utils/StringUtils.hpp"
 
@@ -26,6 +27,7 @@ public:
     float getCoefficientB() const;
     float getAverageValue1() const;
     float getAverageValue2() const;
+    const DataSource2D& getDataSource() const;
 
 };
 
@@ -46,5 +48,8 @@ inline float StatisticalSerie2D::getAverageValue2() const {
     return this->averageValue2;
 }
 
+inline const DataSource2D& StatisticalSerie2D::getDataSource() const {
+    return static_cast<const DataSource2D&>(this->dataSource);
+}
 
 #endif

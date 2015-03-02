@@ -4,6 +4,7 @@
 #include "container/Array.hpp"
 #include "data/Data1DIterator.hpp"
 #include "data/Sample.hpp"
+#include "data/DataSource.hpp"
 
 class StatisticalSerie1D {
 
@@ -33,6 +34,7 @@ public:
     float getStandardDeviation() const;
     float getRange() const;
     float getCoefficientOfVariation() const;
+    const DataSource& getDataSource() const;
 
 };
 
@@ -58,6 +60,10 @@ inline float StatisticalSerie1D::getRange() const {
 
 inline float StatisticalSerie1D::getCoefficientOfVariation() const {
     return this->coefficientOfVariation;
+}
+
+inline const DataSource& StatisticalSerie1D::getDataSource() const {
+    return this->dataSource;
 }
 
 #endif

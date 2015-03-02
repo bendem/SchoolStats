@@ -30,6 +30,7 @@ public:
     unsigned getTotalCount() const;
     DataSourceType getType() const;
     string getSubject() const;
+    string getName() const;
 
     DataSource& operator=(const DataSource&);
 
@@ -49,6 +50,10 @@ inline DataSourceType DataSource::getType() const {
 
 inline string DataSource::getSubject() const {
     return this->subject;
+}
+
+inline string DataSource::getName() const {
+    return this->name;
 }
 
 #endif

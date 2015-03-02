@@ -2,6 +2,8 @@
 #include <iomanip>
 
 #include "data/Sample.hpp"
+#include "data/DataSource.hpp"
+#include "data/DataSource2D.hpp"
 #include "statistics/StatisticalSerie1D.hpp"
 #include "statistics/StatisticalSerie2D.hpp"
 #include "utils/StringUtils.hpp"
@@ -9,6 +11,8 @@
 using namespace std;
 
 unsigned int menu(const DataSource2D&);
+void displayReport1D(const StatisticalSerie1D&);
+void displayReport2D(const StatisticalSerie2D&);
 
 int main(int argc, char* argv[]) {
     fstream x("application.log", ios::out | ios::trunc);
@@ -25,15 +29,15 @@ int main(int argc, char* argv[]) {
             sample->display();
             cerr << "Building StatisticalSerie1D" << endl;
             StatisticalSerie1D c1D(sample);
-            cout
+            /*cout
                 << "\tavg: " << setw(15) << setfill(' ') << c1D.getAverage() << endl
                 << "\tcov: " << setw(15) << setfill(' ') << c1D.getCoefficientOfVariation() << endl
                 << "\tmed: " << setw(15) << setfill(' ') << c1D.getMedian() << endl
                 << "\tmod: " << setw(11) << setfill(' ') << c1D.getMode()[0] << ", " << c1D.getMode()[1] << ", " << c1D.getMode()[2] << endl
                 << "\tran: " << setw(15) << setfill(' ') << c1D.getRange() << endl
                 << "\tstd: " << setw(15) << setfill(' ') << c1D.getStandardDeviation() << endl
-                ;
-            //c1D.displayReport();
+                ;*/
+            displayReport1D(c1D);
             break;
         }
         case 4: {
@@ -83,4 +87,81 @@ unsigned int menu(const DataSource2D& derp) {
         choiceInt = StringUtils::stringToUnsigned(choice);
     }
     return choiceInt;
+}
+
+void displayReport1D(const StatisticalSerie1D& stat) {
+    const DataSource& bob(stat.getDataSource());
+    Data1DIterator it(bob.getData());
+
+    cout << "REPORT" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << "Name: " << bob.getName() << endl;
+    cout << "Subject of the study: " << bob.getSubject() << endl;
+    cout << "Data type: ";
+    if(bob.getType() == CONTINOUS) {
+        cout << "Continous" << endl;
+    } else {
+        cout << "Discrete" << endl;
+    }
+    cout << endl;
+    cout << "DONNEES" << endl;
+    cout << "---------------------------------------------" << endl;
+
+    while(!it.end()) {
+        cout << "\t" << it.getX() << "\t" << it.getY() << endl;
+        ++it;
+    }
+
+    cout << "Total count: " << bob.getTotalCount() << endl << endl;
+
+    cout << endl;
+    cout << "STATS" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << "Moyenne: " << stat.getAverage()<< endl;
+    cout << "Mediane: " << stat.getMedian()<< endl;
+    cout << "Mode: " << stat.getMode()[0] << ", " << stat.getMode()[1] << ", " << stat.getMode()[2] << endl;
+    cout << "Standard Deviation: " << stat.getStandardDeviation() << endl;
+    cout << "Coefficient of variation: " << stat.getCoefficientOfVariation()<< endl;
+}
+
+void displayReport2D(const StatisticalSerie2D& stat) {
+    const DataSource2D& bob(stat.getDataSource());
+    Data2DIterator it(bob.getData());
+
+    cout << "REPORT" << endl;
+    cout << "---------------------------------------------" << endl;
+    cout << "Name: " << bob.getName() << endl;
+    cout << "Subjects of the study: " << bob.getSubject() << "|" << bob.getSubject2() << endl;
+    cout << "Data type: ";
+    if(bob.getType() == CONTINOUS) {
+        cout << "Continous | ";
+    } else {
+        cout << "Discrete | ";
+    }
+    if(bob.getType2() == CONTINOUS) {
+        cout << "Continous" << endl;
+    } else {
+        cout << "Discrete" << endl;
+    }
+    cout << endl;
+    cout << "DATA" << endl;
+    cout << "---------------------------------------------" << endl;
+
+    while(!it.end()) {
+        cout << "\t" << it.getX() << "\t" << it.getY() << endl;
+        ++it;
+    }
+
+    cout << "Total count: " << bob.getTotalCount() << endl << endl;
+    cout << endl;
+
+    cout << "Average value1: " << stat.getAverageValue1() << endl;
+    cout << "Average value2: " << stat.getAverageValue2() << endl;
+
+    cout << endl;
+
+    cout << "Correlation:" << endl;
+    cout << "Coefficient a :" << stat.getCoefficientA() << endl;
+    cout << "Coefficient b :" << stat.getCoefficientB() << endl;
+    cout << endl;
 }
