@@ -21,7 +21,7 @@ class Application : public QDialog {
 Q_OBJECT
 
 public:
-    Application(DataSource2D*, QWidget* parent = 0, const char* name = 0, bool modal = false, WFlags flags = 0);
+    Application(const DataSource2D*);
     ~Application();
 
     QPushButton* doneButton;
@@ -54,7 +54,7 @@ private:
     float e1;
     float e2;
     float max1, max2, min1, min2;
-    DataSource2D* dataSource;
+    const DataSource2D* dataSource;
 
 };
 

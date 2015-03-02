@@ -6,8 +6,8 @@
 
 #include "ui/Application.hpp"
 
-extern pthread_cond_t Cond;
-extern pthread_mutex_t Mutex;
+extern pthread_cond_t cond;
+extern pthread_mutex_t mutex;
 extern int again;
 
 /*
@@ -17,13 +17,12 @@ extern int again;
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-Application::Application(DataSource2D* D, QWidget* parent, const char* name, bool modal, WFlags flags)
-    : QDialog(parent, name, modal, flags),
-      d1(static_cast<Data2D&>(*D->getData().get(0))), // TODO I have no idea
-      d2(static_cast<Data2D&>(*D->getData().get(0))) {
-    if(!name) {
-        setName("Application");
-    }
+Application::Application(const DataSource2D* dataSource)
+    : QDialog(NULL, NULL, false, 0),
+      d1(static_cast<Data2D&>(*dataSource->getData().get(0))), // TODO I have no idea
+      d2(static_cast<Data2D&>(*dataSource->getData().get(0))),
+      dataSource(dataSource) {
+    setName("Application");
 
     doneButton = new QPushButton("doneButton", this);
     doneButton->setGeometry(QRect(360, 280, 100, 29));
