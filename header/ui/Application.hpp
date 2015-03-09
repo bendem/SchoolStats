@@ -54,6 +54,8 @@ private:
     float e2;
     float max1, max2, min1, min2;
     const StatisticalSerie2D* serie2D;
+    unsigned transformX(float);
+    unsigned transformY(float);
 
 };
 

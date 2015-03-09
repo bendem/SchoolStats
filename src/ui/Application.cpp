@@ -75,9 +75,14 @@ void Application::languageChange() {
 
 void Application::refresh() {
     qWarning("Application::refresh()");
-    /* dessine les points de la liste
-    ...
-    */
+    QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
+
+    Data2DIterator it(this->dataSource.getData());
+
+    while(!it.end()) {
+        paint.drawText(transformX(it.getX()), transformY(it.getY()), "x");
+        ++it;
+    }
 }
 
 void Application::drawLine() {
@@ -86,6 +91,7 @@ void Application::drawLine() {
     QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
     paint.drawLine(,,,);
     */
+
 
 }
 
@@ -140,6 +146,14 @@ void Application::mousePressEvent(QMouseEvent* e) {
         paint.drawText(startingPoint.x() - 4, startingPoint.y() + 4, "x");
         isMouseButtonDown = true;
     }
+}
+
+unsigned Application::transformX(float pX){
+    
+}
+
+unsigned Application::transformY(float pY){
+
 }
 
 /************************************
