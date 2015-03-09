@@ -52,7 +52,7 @@ private:
     bool isMouseButtonDown;
     float e1;
     float e2;
-    float max1, max2, min1, min2;
+    float maxX, maxY, minX, minY;
     const StatisticalSerie2D* serie2D;
     unsigned transformX(float);
     unsigned transformY(float);
