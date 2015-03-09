@@ -52,10 +52,10 @@ Application::Application(const StatisticalSerie2D* serie2D)
     connect(drawButton, SIGNAL(clicked()), this, SLOT(drawLine()));
     connect(selectButton, SIGNAL(clicked()), this, SLOT(select()));
 
-    this->minX = serie2D.getData().getMinX();
-    this->minY = serie2D.getData().getMinY();
-    this->maxX = serie2D.getData().getMaxX();
-    this->maxY = serie2D.getData().getMaxY();
+    this->minX = serie2D->getData().getMinX();
+    this->minY = serie2D->getData().getMinY();
+    this->maxX = serie2D->getData().getMaxX();
+    this->maxY = serie2D->getData().getMaxY();
 }
 
 /*
@@ -82,7 +82,7 @@ void Application::refresh() {
     qWarning("Application::refresh()");
     QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
 
-    Data2DIterator it(this->serie2D.getData().getData());
+    Data2DIterator it(this->serie2D->getData().getData());
 
     while(!it.end()) {
         paint.drawText(transformX(it.getX()), transformY(it.getY()), "x");
@@ -154,11 +154,11 @@ void Application::mousePressEvent(QMouseEvent* e) {
 }
 
 unsigned Application::transformX(float pX) const {
-    return pX / (maxX-minX) * 400;
+    return (unsigned) round((pX - minX) / (maxX - minX) * 400);
 }
 
 unsigned Application::transformY(float pY) const {
-    return pY / (maxY-minY) * 200;
+    return (unsigned) round((pY - minY) / (maxY - minY) * 200);
 }
 
 /************************************

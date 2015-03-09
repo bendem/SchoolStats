@@ -23,7 +23,7 @@ public:
     void computeAverages();
     void computeCoefficient();
 
-    const DataSource2D& getData();
+    const DataSource2D& getData() const;
 
     float getCoefficientA() const;
     float getCoefficientB() const;
@@ -33,7 +33,7 @@ public:
 
 };
 
-inline const DataSource2D& StatisticalSerie2D::getData() {
+inline const DataSource2D& StatisticalSerie2D::getData() const {
     return static_cast<const DataSource2D&>(this->dataSource);
 }
 
