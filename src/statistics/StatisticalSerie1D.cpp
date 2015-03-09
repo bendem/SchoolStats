@@ -46,20 +46,27 @@ void StatisticalSerie1D::computeMedian() {
     unsigned totalCount = this->dataSource.getTotalCount();
     unsigned middle = totalCount / 2;
 
-    // Discrete stuff is easy
+    // Discrete stuff
     if(this->dataSource.getType() == DISCRETE) {
-        if(totalCount % 2 == 0) {
-            this->median = static_cast<Data1D*>(data.get(middle + 1))->getValue();
+        // Rebuild value list
+        List<float> values;
+        Data1DIterator it(data);
+        while(!it.end()) {
+            for(unsigned i = 0; i < it.getY(); ++i) {
+                values.add(it.getX());
+            }
+            ++it;
+        }
+
+        if(totalCount % 2 == 0) { // Odd
+            this->median = (values.get(middle) + values.get(middle + 1)) / 2;
         } else {
-            this->median = (
-                static_cast<Data1D*>(data.get(middle))->getValue() +
-                static_cast<Data1D*>(data.get(middle + 1))->getValue()
-            ) / 2;
+            this->median = values.get(middle);
         }
         return;
     }
 
-    // Continous stuff is less easy
+    // Continous stuff
 
     // Looking up the interval containing the median
     Data1DIterator it(data);
