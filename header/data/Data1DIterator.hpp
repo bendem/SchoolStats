@@ -7,7 +7,7 @@
 class Data1DIterator : public DataIterator<Data1DIterator> {
 
 public:
-    Data1DIterator(const List<Data*>& data) : DataIterator(data) {}
+    Data1DIterator(const List<Data*>& data) : DataIterator<Data1DIterator>(data) {}
 
     const Data1D* get() const;
     float getX() const;
