@@ -6,6 +6,7 @@
 #include <qmetaobject.h>
 #include <qvariant.h>
 #include <private/qucomextra_p.h>
+#include <statistics/StatisticalSerie2D.hpp>
 
 #include "data/Data2D.hpp"
 #include "data/DataSource2D.hpp"
@@ -21,7 +22,7 @@ class Application : public QDialog {
 Q_OBJECT
 
 public:
-    Application(const DataSource2D*);
+    Application(const StatisticalSerie2D*);
     ~Application();
 
     QPushButton* doneButton;
@@ -49,12 +50,10 @@ private:
     QPoint startingPoint;
     QPoint endingPoint;
     bool isMouseButtonDown;
-    Data2D d1;
-    Data2D d2;
     float e1;
     float e2;
     float max1, max2, min1, min2;
-    const DataSource2D* dataSource;
+    const StatisticalSerie2D* serie2D;
 
 };
 

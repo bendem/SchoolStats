@@ -17,11 +17,9 @@ extern int again;
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-Application::Application(const DataSource2D* dataSource)
+Application::Application(const StatisticalSerie2D* serie2D)
     : QDialog(NULL, NULL, false, 0),
-      d1(static_cast<Data2D&>(*dataSource->getData().get(0))), // TODO I have no idea
-      d2(static_cast<Data2D&>(*dataSource->getData().get(0))),
-      dataSource(dataSource) {
+      serie2D(serie2D) {
     setName("Application");
 
     doneButton = new QPushButton("doneButton", this);

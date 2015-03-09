@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
                 throw runtime_error("pthread_cond_init error");
             }
             cerr << "Thread creation" << endl;
-            if(pthread_create(&threadHandle, NULL, Graph2D, (void*) &sample->getDataSource())) {
+            if(pthread_create(&threadHandle, NULL, Graph2D, (void*) &c2D)) {
                 throw runtime_error("pthread_create error");
             }
             cerr << "Locking mutex" << endl;
@@ -135,13 +135,13 @@ unsigned int menu(const DataSource2D& derp) {
     return choiceInt;
 }
 
-void* Graph2D(void* dataSource) {
+void* Graph2D(void* serie) {
     cerr << "[Graph2D] We're in the thread \\o/" << endl;
-    const DataSource2D* dataSource2D = static_cast<const DataSource2D*>(dataSource);
+    const StatisticalSerie2D* serie2D = static_cast<const StatisticalSerie2D*>(serie);
 
     cerr << "[Graph2D] Creating application" << endl;
     QApplication a(Argc, Argv);
-    Application* app = new Application(dataSource2D);
+    Application* app = new Application(serie2D);
 
     cerr << "[Graph2D] Showing application" << endl;
     app->show();
