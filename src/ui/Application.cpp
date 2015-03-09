@@ -92,12 +92,18 @@ void Application::refresh() {
 
 void Application::drawLine() {
     qWarning("Application::drawLine()");
-    /*
+
+    float a = this->serie2D->getCoefficientA();
+    float b = this->serie2D->getCoefficientB();
+
     QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
-    paint.drawLine(,,,);
-    */
 
-
+    paint.drawLine(
+        transformX(this->minX),
+        transformY(a * this->minX + b),
+        transformX(this->maxX),
+        transformY(a * this->maxX + b)
+    );
 }
 
 void Application::done() {
@@ -154,11 +160,11 @@ void Application::mousePressEvent(QMouseEvent* e) {
 }
 
 unsigned Application::transformX(float pX) const {
-    return (unsigned) round((pX - minX) / (maxX - minX) * 400);
+    return (unsigned) round((pX - minX) / (maxX - minX) * 400) + 10;
 }
 
 unsigned Application::transformY(float pY) const {
-    return (unsigned) round((pY - minY) / (maxY - minY) * 200);
+    return (unsigned) round((pY - minY) / (maxY - minY) * 200) + 20;
 }
 
 /************************************
