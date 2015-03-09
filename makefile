@@ -4,10 +4,15 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 SRC=src
 OUT=target
 HDR=header
-FLA=-Og -I$(HDR) -Wall
-QT_FLA=-I/usr/lib64/qt-3.3/include/ -L/usr/lib64/qt-3.3/lib/ -lqt-mt -lpthread
-OBJ_FLA=-pedantic -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs -Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Werror -Wno-unused
+FLA=-I$(HDR) -Wall
+OBJ_FLA=-pedantic -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wsign-promo -Wundef -Werror -Wno-unused
 CXX=g++ $(FLA)
+
+ifneq ("$(wildcard /usr/lib64/qt-3.3/include/qapplication.h)","")
+QT_FLA=-I/usr/lib64/qt-3.3/include/ -L/usr/lib64/qt-3.3/lib/ -lqt-mt -lpthread
+else
+QT_FLA=-I/usr/local/qt/include -I/usr/local/qt/mkspec/default -lqt -lpthread
+endif
 
 # Get all files from the header dirs
 FILES:=$(call rwildcard,$(SRC)/,*.cpp)

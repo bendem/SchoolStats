@@ -33,7 +33,7 @@ protected:
 public:
     List();
     List(const List<T>&);
-    ~List();
+    virtual ~List();
 
     /**
      * Adds an element to the list.

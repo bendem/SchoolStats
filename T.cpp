@@ -61,7 +61,6 @@ int main(int argc, char* argv[]) {
             cerr << "Building StatisticalSerie2D" << endl;
             StatisticalSerie2D c2D(sample);
             //C2D.display();
-            //C2D.forecast();
             cerr << "Forecast menu thingies" << endl;
             unsigned int choice;
             do {
@@ -103,8 +102,6 @@ int main(int argc, char* argv[]) {
             if(pthread_mutex_unlock(&mutex)) {
                 throw runtime_error("pthread_mutex_lock error");
             }
-            //c2D.Affiche();
-            //c2D.Prevision();
             break;
         }
         default:

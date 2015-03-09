@@ -5,7 +5,7 @@ Data1D::Data1D(unsigned count, float value) {
     this->value = value;
 }
 
-Data1D::Data1D(const Data1D& p) {
+Data1D::Data1D(const Data1D& p) : Data(), Comparable<Data1D>() {
     this->count = p.count;
     this->value = p.value;
 }
