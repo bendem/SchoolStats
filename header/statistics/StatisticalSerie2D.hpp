@@ -21,7 +21,7 @@ public:
     void forecast2();
 
     void computeAverages();
-    void computeCoefficient();
+    void computeCoefficients();
 
     DataSource2D& getData();
 

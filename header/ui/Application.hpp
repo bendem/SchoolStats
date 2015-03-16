@@ -58,7 +58,6 @@ private:
     float e2;
     float maxX, maxY, minX, minY;
     StatisticalSerie2D* serie2D;
-    List<Data*> data;
 
     unsigned transformX(float) const;
     unsigned transformY(float) const;

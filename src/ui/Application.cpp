@@ -15,7 +15,7 @@ const unsigned int Application::HEIGHT = 240;
  *  TRUE to construct a modal dialog.
  */
 Application::Application(StatisticalSerie2D* serie2D)
-        : QDialog(NULL, NULL, false, 0), serie2D(serie2D), data(serie2D->getData().getData()) {
+        : QDialog(NULL, NULL, false, 0), serie2D(serie2D) {
     setName("Application");
 
     doneButton = new QPushButton("doneButton", this);
@@ -79,7 +79,7 @@ void Application::refresh() {
     QPainter paint(thePaintingFrame);
     paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2); // let 1 pixel alone because the border is inset
 
-    Data2DIterator it(this->data);
+    Data2DIterator it(this->serie2D->getData().getData());
 
     while(!it.end()) {
         paint.setPen(Qt::blue);
@@ -93,6 +93,7 @@ void Application::drawLine() {
 
     this->refresh();
 
+    this->serie2D->computeCoefficients();
     float a = this->serie2D->getCoefficientA();
     float b = this->serie2D->getCoefficientB();
 
@@ -122,18 +123,33 @@ void Application::select() {
     paint.setPen(Qt::black);
     //paint.drawRect(startingPoint.x(),startingPoint.y(), endingPoint.x()-startingPoint.x(),endingPoint.y()-startingPoint.y());
 
+    if(startingPoint.x() < 0) {
+        startingPoint.setX(0);
+    }
+    if(startingPoint.y() < 0) {
+        startingPoint.setY(0);
+    }
+    if(endingPoint.x() < 0) {
+        endingPoint.setX(0);
+    }
+    if(endingPoint.y() < 0) {
+        endingPoint.setY(0);
+    }
+
     unsigned int minX = min(startingPoint.x(), endingPoint.x());
     unsigned int maxX = max(startingPoint.x(), endingPoint.x());
     unsigned int minY = min(startingPoint.y(), endingPoint.y());
     unsigned int maxY = max(startingPoint.y(), endingPoint.y());
 
-    Data2DIterator it(this->data);
+    Data2DIterator it(this->serie2D->getData().getData());
     while(!it.end()) {
         if(this->transformX(it.getX()) > minX
                 && this->transformX(it.getX()) < maxX
                 && this->transformY(it.getY()) > minY
                 && this->transformY(it.getY()) < maxY) {
             it.remove();
+            this->serie2D->getData().resetTotalCount();
+            //it.get()->setValue2(0);
         } else {
             ++it;
         }

@@ -3,7 +3,7 @@
 StatisticalSerie2D::StatisticalSerie2D(Sample* sample)
         : sample(sample), dataSource(sample->getDataSource()) {
     this->computeAverages();
-    this->computeCoefficient();
+    this->computeCoefficients();
 }
 
 void StatisticalSerie2D::forecast1() {
@@ -43,13 +43,15 @@ void StatisticalSerie2D::computeAverages() {
     this->averageValue2 = sumValue2 / this->dataSource.getTotalCount();
 }
 
-void StatisticalSerie2D::computeCoefficient() {
-    Data2DIterator it(this->dataSource.getData());
+void StatisticalSerie2D::computeCoefficients() {
+    this->computeAverages();
+
     float sumX = 0;
     float sumXX = 0;
     float sumY = 0;
     float sumXY = 0;
 
+    Data2DIterator it(this->dataSource.getData());
     while(!it.end()) {
         sumX += it.getX();
         sumXX += it.getX() * it.getX();

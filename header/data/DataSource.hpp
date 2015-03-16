@@ -31,6 +31,8 @@ public:
     string getSubject() const;
     string getName() const;
 
+    void resetTotalCount();
+
     DataSource& operator=(const DataSource&);
 
 };
@@ -53,6 +55,10 @@ inline string DataSource::getSubject() const {
 
 inline string DataSource::getName() const {
     return this->name;
+}
+
+inline void DataSource::resetTotalCount() {
+    this->totalCount = this->data.size();
 }
 
 #endif
