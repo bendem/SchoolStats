@@ -42,7 +42,7 @@ void StatisticalSerie1D::computeAverage() {
 }
 
 void StatisticalSerie1D::computeMedian() {
-    const List<Data*>& data(this->dataSource.getData());
+    List<Data*>& data(this->dataSource.getData());
     unsigned totalCount = this->dataSource.getTotalCount();
     unsigned middle = totalCount / 2;
 
@@ -71,7 +71,7 @@ void StatisticalSerie1D::computeMedian() {
     // Looking up the interval containing the median
     Data1DIterator it(data);
     unsigned count = 0;
-    const Data1D* data1D = NULL;
+    Data1D* data1D = NULL;
     while(!it.end()) {
         ++it;
         data1D = it.get();

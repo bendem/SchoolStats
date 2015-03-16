@@ -27,14 +27,14 @@ public:
     Sample(const Sample&);
     ~Sample();
 
-    const DataSource& getDataSource() const;
+    DataSource& getDataSource();
     void display() const;
 
     Sample& operator=(Sample);
 
 };
 
-inline const DataSource& Sample::getDataSource() const {
+inline DataSource& Sample::getDataSource() {
     return *this->dataSource;
 }
 

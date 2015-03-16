@@ -10,7 +10,7 @@ private:
     float intervalSizes;
 
 public:
-    ContinousDataSource(string, string, unsigned, const List<Data*>&, float, float);
+    ContinousDataSource(string, string, unsigned, List<Data*>&, float, float);
 
     float getFirstInterval() const;
     float getIntervalSizes() const;

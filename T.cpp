@@ -15,7 +15,7 @@ using namespace std;
 
 void* Graph2D(void*);
 
-unsigned int menu(const DataSource2D&);
+unsigned int menu(DataSource2D&);
 
 int again = 1;
 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
             cerr << "Forecast menu thingies" << endl;
             unsigned int choice;
             do {
-                choice = menu(static_cast<const DataSource2D&>(sample->getDataSource()));
+                choice = menu(static_cast<DataSource2D&>(sample->getDataSource()));
                 if(choice == 1) {
                     c2D.forecast1();
                 } else if(choice == 2) {
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-unsigned int menu(const DataSource2D& derp) {
+unsigned int menu(DataSource2D& derp) {
     string choice;
     unsigned choiceInt = 0;
 
@@ -137,7 +137,7 @@ unsigned int menu(const DataSource2D& derp) {
 
 void* Graph2D(void* serie) {
     cerr << "[Graph2D] We're in the thread \\o/" << endl;
-    const StatisticalSerie2D* serie2D = static_cast<const StatisticalSerie2D*>(serie);
+    StatisticalSerie2D* serie2D = static_cast<StatisticalSerie2D*>(serie);
 
     cerr << "[Graph2D] Creating application" << endl;
     QApplication a(Argc, Argv);

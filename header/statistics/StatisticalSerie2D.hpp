@@ -9,7 +9,7 @@
 class StatisticalSerie2D {
 private:
     Sample* sample;
-    const DataSource& dataSource;
+    DataSource& dataSource;
     float averageValue1;
     float averageValue2;
     float coefficientA;
@@ -23,18 +23,18 @@ public:
     void computeAverages();
     void computeCoefficient();
 
-    const DataSource2D& getData() const;
+    DataSource2D& getData();
 
     float getCoefficientA() const;
     float getCoefficientB() const;
     float getAverageValue1() const;
     float getAverageValue2() const;
-    const DataSource2D& getDataSource() const;
+    DataSource2D& getDataSource();
 
 };
 
-inline const DataSource2D& StatisticalSerie2D::getData() const {
-    return static_cast<const DataSource2D&>(this->dataSource);
+inline DataSource2D& StatisticalSerie2D::getData() {
+    return static_cast<DataSource2D&>(this->dataSource);
 }
 
 inline float StatisticalSerie2D::getCoefficientA() const {
@@ -53,8 +53,8 @@ inline float StatisticalSerie2D::getAverageValue2() const {
     return this->averageValue2;
 }
 
-inline const DataSource2D& StatisticalSerie2D::getDataSource() const {
-    return static_cast<const DataSource2D&>(this->dataSource);
+inline DataSource2D& StatisticalSerie2D::getDataSource() {
+    return static_cast<DataSource2D&>(this->dataSource);
 }
 
 #endif

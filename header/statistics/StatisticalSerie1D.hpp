@@ -10,7 +10,7 @@ class StatisticalSerie1D {
 
 private:
     Sample* sample;
-    const DataSource& dataSource;
+    DataSource& dataSource;
     Array<float, 3> mode;
     float average;
     float median;
@@ -28,17 +28,17 @@ private:
 public:
     StatisticalSerie1D(Sample*);
 
-    const Array<float, 3> getMode() const;
+    Array<float, 3> getMode() const;
     float getAverage() const;
     float getMedian() const;
     float getStandardDeviation() const;
     float getRange() const;
     float getCoefficientOfVariation() const;
-    const DataSource& getDataSource() const;
+    DataSource& getDataSource();
 
 };
 
-inline const Array<float, 3> StatisticalSerie1D::getMode() const {
+inline Array<float, 3> StatisticalSerie1D::getMode() const {
     return this->mode;
 }
 
@@ -62,7 +62,7 @@ inline float StatisticalSerie1D::getCoefficientOfVariation() const {
     return this->coefficientOfVariation;
 }
 
-inline const DataSource& StatisticalSerie1D::getDataSource() const {
+inline DataSource& StatisticalSerie1D::getDataSource() {
     return this->dataSource;
 }
 

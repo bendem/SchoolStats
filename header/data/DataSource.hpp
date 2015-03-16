@@ -19,14 +19,13 @@ protected:
     string subject;
     unsigned totalCount;
     DataSourceType type;
-    const List<Data*> data;
+    List<Data*> data;
 
 public:
-    DataSource(string, string, unsigned, DataSourceType, const List<Data*>&);
-    DataSource(const DataSource&);
+    DataSource(string, string, unsigned, DataSourceType, List<Data*>&);
     virtual ~DataSource() = 0;
 
-    const List<Data*>& getData() const;
+    List<Data*>& getData();
     unsigned getTotalCount() const;
     DataSourceType getType() const;
     string getSubject() const;
@@ -36,7 +35,7 @@ public:
 
 };
 
-inline const List<Data*>& DataSource::getData() const {
+inline List<Data*>& DataSource::getData() {
     return this->data;
 }
 

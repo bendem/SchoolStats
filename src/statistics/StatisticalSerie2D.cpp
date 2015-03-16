@@ -21,7 +21,7 @@ void StatisticalSerie2D::forecast2() {
     string value;
     float valueFloat, result;
     
-    cout << "\tEnter a value for " << static_cast<const DataSource2D&>(dataSource).getSubject2() << ": ";
+    cout << "\tEnter a value for " << static_cast<DataSource2D&>(dataSource).getSubject2() << ": ";
     getline(cin, value, cin.widen('\n'));
     valueFloat = StringUtils::stringToFloat(value);
     result = (valueFloat - coefficientB) / coefficientA;

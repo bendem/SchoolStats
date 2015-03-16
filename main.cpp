@@ -11,8 +11,8 @@
 using namespace std;
 
 unsigned int menu(const DataSource2D&);
-void displayReport1D(const StatisticalSerie1D&);
-void displayReport2D(const StatisticalSerie2D&);
+void displayReport1D(StatisticalSerie1D&);
+void displayReport2D(StatisticalSerie2D&);
 
 int main(int argc, char* argv[]) {
     fstream x("application.log", ios::out | ios::trunc);
@@ -89,8 +89,8 @@ unsigned int menu(const DataSource2D& derp) {
     return choiceInt;
 }
 
-void displayReport1D(const StatisticalSerie1D& stat) {
-    const DataSource& bob(stat.getDataSource());
+void displayReport1D(StatisticalSerie1D& stat) {
+    DataSource& bob(stat.getDataSource());
     Data1DIterator it(bob.getData());
 
     cout << "REPORT" << endl;
@@ -124,8 +124,8 @@ void displayReport1D(const StatisticalSerie1D& stat) {
     cout << "Coefficient of variation: " << stat.getCoefficientOfVariation()<< endl;
 }
 
-void displayReport2D(const StatisticalSerie2D& stat) {
-    const DataSource2D& bob(stat.getDataSource());
+void displayReport2D(StatisticalSerie2D& stat) {
+    DataSource2D& bob(stat.getDataSource());
     Data2DIterator it(bob.getData());
 
     cout << "REPORT" << endl;

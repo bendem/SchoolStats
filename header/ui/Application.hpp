@@ -24,7 +24,7 @@ class Application : public QDialog {
 Q_OBJECT
 
 public:
-    Application(const StatisticalSerie2D*);
+    Application(StatisticalSerie2D*);
     ~Application();
 
     QPushButton* doneButton;
@@ -57,7 +57,7 @@ private:
     float e1;
     float e2;
     float maxX, maxY, minX, minY;
-    const StatisticalSerie2D* serie2D;
+    StatisticalSerie2D* serie2D;
     List<Data*> data;
 
     unsigned transformX(float) const;

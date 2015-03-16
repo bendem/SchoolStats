@@ -15,7 +15,7 @@ private:
     float maxY;
 
 public:
-    DataSource2D(string, string, string, DataSourceType, DataSourceType, const List<Data*>&);
+    DataSource2D(string, string, string, DataSourceType, DataSourceType, List<Data*>&);
     string getSubject2() const;
     DataSourceType getType2() const;
 

@@ -14,7 +14,7 @@ const unsigned int Application::HEIGHT = 240;
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-Application::Application(const StatisticalSerie2D* serie2D)
+Application::Application(StatisticalSerie2D* serie2D)
         : QDialog(NULL, NULL, false, 0), serie2D(serie2D), data(serie2D->getData().getData()) {
     setName("Application");
 

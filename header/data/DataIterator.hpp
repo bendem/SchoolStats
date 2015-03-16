@@ -1,17 +1,17 @@
 #ifndef DATAITERATOR_HPP
 #define DATAITERATOR_HPP
 
-#include "container/ConstIterator.hpp"
+#include "container/Iterator.hpp"
 #include "data/Data.hpp"
 
 template<class T>
 class DataIterator {
 
 protected:
-    ConstIterator<Data*> iterator;
+    Iterator<Data*> iterator;
 
 public:
-    DataIterator(const List<Data*>& data) : iterator(data) {}
+    DataIterator(List<Data*>& data) : iterator(data) {}
     DataIterator(const DataIterator& p) : iterator(p.iterator) {}
 
     bool end() const;

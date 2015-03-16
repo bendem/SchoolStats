@@ -7,23 +7,23 @@
 class Data1DIterator : public DataIterator<Data1DIterator> {
 
 public:
-    Data1DIterator(const List<Data*>& data) : DataIterator<Data1DIterator>(data) {}
+    Data1DIterator(List<Data*>& data) : DataIterator<Data1DIterator>(data) {}
 
-    const Data1D* get() const;
-    float getX() const;
-    unsigned getY() const;
+    Data1D* get();
+    float getX();
+    unsigned getY();
 
 };
 
-inline const Data1D* Data1DIterator::get() const {
+inline Data1D* Data1DIterator::get() {
     return static_cast<Data1D*>(this->iterator.get());
 }
 
-inline float Data1DIterator::getX() const {
+inline float Data1DIterator::getX() {
     return static_cast<Data1D*>(this->iterator.get())->getValue();
 }
 
-inline unsigned Data1DIterator::getY() const {
+inline unsigned Data1DIterator::getY() {
     return static_cast<Data1D*>(this->iterator.get())->getCount();
 }
 

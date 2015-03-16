@@ -8,7 +8,7 @@
 class DiscreteDataSource : public DataSource {
 
 public:
-    DiscreteDataSource(string, string, unsigned, const List<Data*>&);
+    DiscreteDataSource(string, string, unsigned, List<Data*>&);
 
 };
 
