@@ -58,10 +58,10 @@ Sample::Sample(string filename, unsigned column) {
     } else {
         ConstIterator<float> it(dataRead);
         Sanity::truthness(it.get() >= firstInterval, "WHY YOU GIVE STUPID VALUES?");
-        float prev = firstInterval;
+        float prev = firstInterval + intervalSizes / 2;
         unsigned count = 0;
         while(!it.end()) {
-            while(!it.end() && it.get() < prev + intervalSizes) {
+            while(!it.end() && it.get() < prev + intervalSizes / 2) {
                 ++count;
                 ++it;
             }
