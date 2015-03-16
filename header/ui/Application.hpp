@@ -47,6 +47,9 @@ protected slots:
     virtual void languageChange();
 
 private:
+    static const unsigned int WIDTH;
+    static const unsigned int HEIGHT;
+
     QPoint startingPoint;
     QPoint endingPoint;
     bool isMouseButtonDown;

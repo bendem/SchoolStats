@@ -10,6 +10,9 @@ extern pthread_cond_t cond;
 extern pthread_mutex_t mutex;
 extern int again;
 
+const unsigned int Application::WIDTH = 440;
+const unsigned int Application::HEIGHT = 240;
+
 /*
  *  Constructs a Application as a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'.
@@ -39,7 +42,7 @@ Application::Application(const StatisticalSerie2D* serie2D)
     refreshButton->setAutoDefault(FALSE);
 
     thePaintingFrame = new QFrame(this);
-    thePaintingFrame->setGeometry(QRect(20, 20, 440, 240));
+    thePaintingFrame->setGeometry(QRect(20, 20, WIDTH, HEIGHT));
     thePaintingFrame->setFrameShape(QFrame::StyledPanel);
     thePaintingFrame->setFrameShadow(QFrame::Raised);
     languageChange();
@@ -81,6 +84,7 @@ void Application::languageChange() {
 void Application::refresh() {
     qWarning("Application::refresh()");
     QPainter paint(thePaintingFrame);
+    paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2);
 
     Data2DIterator it(this->serie2D->getData().getData());
 
@@ -161,11 +165,11 @@ void Application::mousePressEvent(QMouseEvent* e) {
 }
 
 unsigned Application::transformX(float pX) const {
-    return (unsigned) round((pX - minX) / (maxX - minX) * 400) + 10;
+    return (unsigned) round((pX - minX) / (maxX - minX) * (WIDTH - 40)) + 10;
 }
 
 unsigned Application::transformY(float pY) const {
-    return 200 - (unsigned) round((pY - minY) / (maxY - minY) * 200) + 20;
+    return HEIGHT - 20 - (unsigned) round((pY - minY) / (maxY - minY) * (HEIGHT - 40));
 }
 
 /************************************
