@@ -15,7 +15,7 @@ const unsigned int Application::HEIGHT = 240;
  *  TRUE to construct a modal dialog.
  */
 Application::Application(const StatisticalSerie2D* serie2D)
-        : QDialog(NULL, NULL, false, 0), serie2D(serie2D) {
+        : QDialog(NULL, NULL, false, 0), serie2D(serie2D), data(serie2D->getData().getData()) {
     setName("Application");
 
     doneButton = new QPushButton("doneButton", this);
@@ -79,10 +79,10 @@ void Application::refresh() {
     QPainter paint(thePaintingFrame);
     paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2); // let 1 pixel alone because the border is inset
 
-    Data2DIterator it(this->serie2D->getData().getData());
+    Data2DIterator it(this->data);
 
     while(!it.end()) {
-        paint.setPen(paint.blue);
+        paint.setPen(Qt::blue);
         paint.drawText(transformX(it.getX()), transformY(it.getY()), "x");
         ++it;
     }
@@ -90,6 +90,8 @@ void Application::refresh() {
 
 void Application::drawLine() {
     qWarning("Application::drawLine()");
+
+    this->refresh();
 
     float a = this->serie2D->getCoefficientA();
     float b = this->serie2D->getCoefficientB();
@@ -115,12 +117,28 @@ void Application::done() {
 
 void Application::select() {
     qWarning("Application::select() ");
-    /*
+
     QPainter paint(thePaintingFrame);
     paint.setPen(Qt::black);
-    paint.drawRect(startingPoint.x(),startingPoint.y(),
-            endingPoint.x()-startingPoint.x(),endingPoint.y()-startingPoint.y());
-    ...
+    //paint.drawRect(startingPoint.x(),startingPoint.y(), endingPoint.x()-startingPoint.x(),endingPoint.y()-startingPoint.y());
+
+    unsigned int minX = min(startingPoint.x(), endingPoint.x());
+    unsigned int maxX = max(startingPoint.x(), endingPoint.x());
+    unsigned int minY = min(startingPoint.y(), endingPoint.y());
+    unsigned int maxY = max(startingPoint.y(), endingPoint.y());
+
+    Data2DIterator it(this->data);
+    while(!it.end()) {
+        if(this->transformX(it.getX()) > minX
+                && this->transformX(it.getX()) < maxX
+                && this->transformY(it.getY()) > minY
+                && this->transformY(it.getY()) < maxY) {
+            cout << "Should remove" << endl;
+        }
+        ++it;
+    }
+
+    /*...
     classes les 2 point selectionnes
     ...
     retire les points de la zone selectionnee de la liste
@@ -131,6 +149,15 @@ void Application::select() {
 }
 
 void Application::mouseMoveEvent(QMouseEvent* e) {
+    if(isMouseButtonDown) {
+        QPainter paint(thePaintingFrame);
+        this->refresh();
+        QPoint endingPoint = e->pos();
+        endingPoint.setX(endingPoint.x() - 20);
+        endingPoint.setY(endingPoint.y() - 20);
+
+        drawRect(paint, startingPoint, endingPoint);
+    }
 }
 
 void Application::mouseReleaseEvent(QMouseEvent* e) {
@@ -139,20 +166,17 @@ void Application::mouseReleaseEvent(QMouseEvent* e) {
         endingPoint = e->pos();
         endingPoint.setX(endingPoint.x() - 20);
         endingPoint.setY(endingPoint.y() - 20);
-        paint.drawText(endingPoint.x() - 4, endingPoint.y() + 4, "x");
         isMouseButtonDown = false;
     }
-    cout << "Start: " << startingPoint.x() << " - " << startingPoint.y() << endl;
-    cout << "End: " << endingPoint.x() << " - " << endingPoint.y() << endl;
+
+    this->drawRect(paint, startingPoint, endingPoint);
 }
 
 void Application::mousePressEvent(QMouseEvent* e) {
-    QPainter paint(thePaintingFrame);
     if(!isMouseButtonDown) {
         startingPoint = e->pos();
         startingPoint.setX(startingPoint.x() - 20);
         startingPoint.setY(startingPoint.y() - 20);
-        paint.drawText(startingPoint.x() - 4, startingPoint.y() + 4, "x");
         isMouseButtonDown = true;
     }
 }
@@ -163,6 +187,15 @@ unsigned Application::transformX(float pX) const {
 
 unsigned Application::transformY(float pY) const {
     return HEIGHT - 20 - (unsigned) round((pY - minY) / (maxY - minY) * (HEIGHT - 40));
+}
+
+void Application::drawRect(QPainter& paint, const QPoint& p1, const QPoint& p2) {
+    int minX = min(p1.x(), p2.x());
+    int maxX = max(p1.x(), p2.x());
+    int minY = min(p1.y(), p2.y());
+    int maxY = max(p1.y(), p2.y());
+
+    paint.drawRect(minX, minY, maxX - minX, maxY - minY);
 }
 
 /************************************

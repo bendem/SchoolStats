@@ -73,7 +73,8 @@ void StatisticalSerie1D::computeMedian() {
     unsigned count = 0;
     const Data1D* data1D = NULL;
     while(!it.end()) {
-        data1D = it++.get();
+        ++it;
+        data1D = it.get();
         if(count + data1D->getCount() > middle) {
             break;
         }

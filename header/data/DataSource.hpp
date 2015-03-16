@@ -19,7 +19,7 @@ protected:
     string subject;
     unsigned totalCount;
     DataSourceType type;
-    List<Data*> data;
+    const List<Data*> data;
 
 public:
     DataSource(string, string, unsigned, DataSourceType, const List<Data*>&);

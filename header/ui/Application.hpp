@@ -44,7 +44,6 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent*);
     virtual void mousePressEvent(QMouseEvent*);
 
-
 protected slots:
     virtual void languageChange();
 
@@ -59,8 +58,12 @@ private:
     float e2;
     float maxX, maxY, minX, minY;
     const StatisticalSerie2D* serie2D;
+    List<Data*> data;
+
     unsigned transformX(float) const;
     unsigned transformY(float) const;
+
+    static void drawRect(QPainter&, const QPoint&, const QPoint&);
 
 };
 
