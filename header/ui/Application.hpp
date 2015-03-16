@@ -29,7 +29,7 @@ public:
     QPushButton* drawButton;
     QPushButton* selectButton;
     QPushButton* refreshButton;
-    QFrame* aRandomFrameWhichWeDontKnowWhatToDoWith;
+    QFrame* thePaintingFrame;
 
 public slots:
     virtual void refresh();

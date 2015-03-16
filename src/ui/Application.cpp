@@ -38,10 +38,10 @@ Application::Application(const StatisticalSerie2D* serie2D)
     refreshButton->setGeometry(QRect(10, 280, 100, 29));
     refreshButton->setAutoDefault(FALSE);
 
-    aRandomFrameWhichWeDontKnowWhatToDoWith = new QFrame(this);
-    aRandomFrameWhichWeDontKnowWhatToDoWith->setGeometry(QRect(20, 20, 440, 240));
-    aRandomFrameWhichWeDontKnowWhatToDoWith->setFrameShape(QFrame::StyledPanel);
-    aRandomFrameWhichWeDontKnowWhatToDoWith->setFrameShadow(QFrame::Raised);
+    thePaintingFrame = new QFrame(this);
+    thePaintingFrame->setGeometry(QRect(20, 20, 440, 240));
+    thePaintingFrame->setFrameShape(QFrame::StyledPanel);
+    thePaintingFrame->setFrameShadow(QFrame::Raised);
     languageChange();
     resize(QSize(475, 327).expandedTo(minimumSizeHint()));
     clearWState(WState_Polished);
@@ -80,11 +80,12 @@ void Application::languageChange() {
 
 void Application::refresh() {
     qWarning("Application::refresh()");
-    QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
+    QPainter paint(thePaintingFrame);
 
     Data2DIterator it(this->serie2D->getData().getData());
 
     while(!it.end()) {
+        paint.setPen(paint.blue);
         paint.drawText(transformX(it.getX()), transformY(it.getY()), "x");
         ++it;
     }
@@ -96,7 +97,7 @@ void Application::drawLine() {
     float a = this->serie2D->getCoefficientA();
     float b = this->serie2D->getCoefficientB();
 
-    QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
+    QPainter paint(thePaintingFrame);
 
     paint.drawLine(
         transformX(this->minX),
@@ -118,7 +119,7 @@ void Application::done() {
 void Application::select() {
     qWarning("Application::select() ");
     /*
-    QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
+    QPainter paint(thePaintingFrame);
     paint.setPen(Qt::black);
     paint.drawRect(startingPoint.x(),startingPoint.y(),
             endingPoint.x()-startingPoint.x(),endingPoint.y()-startingPoint.y());
@@ -136,7 +137,7 @@ void Application::mouseMoveEvent(QMouseEvent* e) {
 }
 
 void Application::mouseReleaseEvent(QMouseEvent* e) {
-    QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
+    QPainter paint(thePaintingFrame);
     if(isMouseButtonDown) {
         endingPoint = e->pos();
         endingPoint.setX(endingPoint.x() - 20);
@@ -149,7 +150,7 @@ void Application::mouseReleaseEvent(QMouseEvent* e) {
 }
 
 void Application::mousePressEvent(QMouseEvent* e) {
-    QPainter paint(aRandomFrameWhichWeDontKnowWhatToDoWith);
+    QPainter paint(thePaintingFrame);
     if(!isMouseButtonDown) {
         startingPoint = e->pos();
         startingPoint.setX(startingPoint.x() - 20);
@@ -164,7 +165,7 @@ unsigned Application::transformX(float pX) const {
 }
 
 unsigned Application::transformY(float pY) const {
-    return (unsigned) round((pY - minY) / (maxY - minY) * 200) + 20;
+    return 200 - (unsigned) round((pY - minY) / (maxY - minY) * 200) + 20;
 }
 
 /************************************
