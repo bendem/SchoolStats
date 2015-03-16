@@ -82,8 +82,9 @@ void StatisticalSerie1D::computeMedian() {
 
     Sanity::truthness(data1D != NULL, "Middle interval of continous data not found when computing median");
 
-    this->median = data1D->getValue() // Start of interval
-        + static_cast<const ContinousDataSource&>(this->dataSource).getIntervalSizes() / data1D->getCount()
+    float interval = static_cast<const ContinousDataSource&>(this->dataSource).getIntervalSizes();
+    this->median = data1D->getValue() - interval / 2 // Start of interval
+        + interval / data1D->getCount()
         * (data1D->getCount() - (middle - count)); // Position of the middle in the interval
 }
 
