@@ -83,7 +83,7 @@ void Application::refresh() {
 
     while(!it.end()) {
         paint.setPen(Qt::blue);
-        paint.drawText(transformX(it.getX()), transformY(it.getY()), "x");
+        paint.drawText(transformX(it.getX()) - 4, transformY(it.getY()) + 4, "x");
         ++it;
     }
 }
