@@ -4,12 +4,9 @@
 #include <qapplication.h>
 #include <qdialog.h>
 #include <qframe.h>
-#include <qlayout.h>
 #include <qmetaobject.h>
 #include <qpainter.h>
 #include <qpushbutton.h>
-#include <qvariant.h>
-#include <qwhatsthis.h>
 #include <private/qucomextra_p.h>
 
 #include "data/Data2D.hpp"
