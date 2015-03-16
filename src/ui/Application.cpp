@@ -1,8 +1,8 @@
 #include "ui/Application.hpp"
 
-extern pthread_cond_t cond;
+//extern pthread_cond_t cond;
 extern pthread_mutex_t mutex;
-extern int again;
+//extern int again;
 
 const unsigned int Application::WIDTH = 440;
 const unsigned int Application::HEIGHT = 240;
@@ -59,7 +59,7 @@ Application::Application(StatisticalSerie2D* serie2D)
  */
 Application::~Application() {
     // no need to delete child widgets, Qt does it all for us
-    cout << "dans destructeur FAffiche" << endl;
+    cerr << "dans destructeur FAffiche" << endl;
 }
 
 /*
@@ -75,7 +75,7 @@ void Application::languageChange() {
 }
 
 void Application::refresh() {
-    qWarning("Application::refresh()");
+    cerr << "Application::refresh()" << endl;
     QPainter paint(thePaintingFrame);
     paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2); // let 1 pixel alone because the border is inset
 
@@ -89,11 +89,10 @@ void Application::refresh() {
 }
 
 void Application::drawLine() {
-    qWarning("Application::drawLine()");
+    cerr << "Application::drawLine()" << endl;
 
     this->refresh();
 
-    this->serie2D->computeCoefficients();
     float a = this->serie2D->getCoefficientA();
     float b = this->serie2D->getCoefficientB();
 
@@ -108,7 +107,7 @@ void Application::drawLine() {
 }
 
 void Application::done() {
-    qWarning("Application::done(): Not implemented yet");
+    cerr << "Application::done(): Not implemented yet";
     /*
     place une variable continue a 0 et signale au main
     ...
@@ -117,11 +116,10 @@ void Application::done() {
 }
 
 void Application::select() {
-    qWarning("Application::select() ");
+    cerr << "Application::select() " << endl;
 
     QPainter paint(thePaintingFrame);
     paint.setPen(Qt::black);
-    //paint.drawRect(startingPoint.x(),startingPoint.y(), endingPoint.x()-startingPoint.x(),endingPoint.y()-startingPoint.y());
 
     if(startingPoint.x() < 0) {
         startingPoint.setX(0);
@@ -141,6 +139,7 @@ void Application::select() {
     unsigned int minY = min(startingPoint.y(), endingPoint.y());
     unsigned int maxY = max(startingPoint.y(), endingPoint.y());
 
+    pthread_mutex_lock(&mutex);
     Data2DIterator it(this->serie2D->getData().getData());
     while(!it.end()) {
         if(this->transformX(it.getX()) > minX
@@ -154,16 +153,10 @@ void Application::select() {
             ++it;
         }
     }
+    this->serie2D->computeCoefficients();
+    pthread_mutex_unlock(&mutex);
+
     this->refresh();
-
-    /*...
-    classes les 2 point selectionnes
-    ...
-    retire les points de la zone selectionnee de la liste
-
-    place une variable continue a 1 et signale au main
-    ...
-    */
 }
 
 void Application::mouseMoveEvent(QMouseEvent* e) {

@@ -60,40 +60,24 @@ int main(int argc, char* argv[]) {
             sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
             cerr << "Building StatisticalSerie2D" << endl;
             StatisticalSerie2D c2D(sample);
-            //C2D.display();
-            cerr << "Forecast menu thingies" << endl;
-            unsigned int choice;
-            do {
-                choice = menu(static_cast<DataSource2D&>(sample->getDataSource()));
-                if(choice == 1) {
-                    c2D.forecast1();
-                } else if(choice == 2) {
-                    c2D.forecast2();
-                }
-            } while(choice != 3);
 
-            cerr << "Initializing condition" << endl;
-            if(pthread_cond_init(&cond, NULL)) {
-                throw runtime_error("pthread_cond_init error");
-            }
             cerr << "Thread creation" << endl;
             if(pthread_create(&threadHandle, NULL, Graph2D, (void*) &c2D)) {
                 throw runtime_error("pthread_create error");
             }
-            cerr << "Locking mutex" << endl;
-            if(pthread_mutex_lock(&mutex)) {
-                throw runtime_error("pthread_mutex_lock error");
-            }
-            cerr << "Stuff, idk" << endl;
-            //while(again) {
-            //    if(pthread_cond_wait(&cond, &mutex)) {
-            //        throw runtime_error("pthread_cond_signal error");
-            //    }
-            //    c2D.setMoyenne();
-            //    c2D.setA();
-            //    c2D.setB();
-            //    c2D.setCorr();
-            //}
+
+            cerr << "Forecast menu thingies" << endl;
+            unsigned int choice;
+            do {
+                choice = menu(static_cast<DataSource2D&>(sample->getDataSource()));
+                pthread_mutex_lock(&mutex);
+                switch(choice) {
+                    case 1: c2D.forecast1(); break;
+                    case 2: c2D.forecast2(); break;
+                }
+                pthread_mutex_unlock(&mutex);
+            } while(choice != 3);
+
             cerr << "Joining thread" << endl;
             if(pthread_join(threadHandle, NULL)) {
                 throw runtime_error("pthread_join error");
