@@ -14,11 +14,18 @@ public:
     DataIterator(List<Data*>& data) : iterator(data) {}
     DataIterator(const DataIterator& p) : iterator(p.iterator) {}
 
+    Data* remove();
+
     bool end() const;
     T& operator++();
     T operator++(int);
 
 };
+
+template<class T>
+inline Data* DataIterator<T>::remove() {
+    return iterator.remove();
+}
 
 template<class T>
 inline bool DataIterator<T>::end() const {

@@ -133,10 +133,12 @@ void Application::select() {
                 && this->transformX(it.getX()) < maxX
                 && this->transformY(it.getY()) > minY
                 && this->transformY(it.getY()) < maxY) {
-            cout << "Should remove" << endl;
+            it.remove();
+        } else {
+            ++it;
         }
-        ++it;
     }
+    this->refresh();
 
     /*...
     classes les 2 point selectionnes
