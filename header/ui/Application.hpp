@@ -3,13 +3,18 @@
 
 #include <qapplication.h>
 #include <qdialog.h>
+#include <qframe.h>
+#include <qlayout.h>
 #include <qmetaobject.h>
+#include <qpainter.h>
+#include <qpushbutton.h>
 #include <qvariant.h>
+#include <qwhatsthis.h>
 #include <private/qucomextra_p.h>
-#include <statistics/StatisticalSerie2D.hpp>
 
 #include "data/Data2D.hpp"
 #include "data/DataSource2D.hpp"
+#include "statistics/StatisticalSerie2D.hpp"
 
 class QFrame;
 class QGridLayout;

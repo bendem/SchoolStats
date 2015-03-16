@@ -1,9 +1,3 @@
-#include <qpainter.h>
-#include <qpushbutton.h>
-#include <qframe.h>
-#include <qlayout.h>
-#include <qwhatsthis.h>
-
 #include "ui/Application.hpp"
 
 extern pthread_cond_t cond;
@@ -21,8 +15,7 @@ const unsigned int Application::HEIGHT = 240;
  *  TRUE to construct a modal dialog.
  */
 Application::Application(const StatisticalSerie2D* serie2D)
-    : QDialog(NULL, NULL, false, 0),
-      serie2D(serie2D) {
+        : QDialog(NULL, NULL, false, 0), serie2D(serie2D) {
     setName("Application");
 
     doneButton = new QPushButton("doneButton", this);
@@ -84,7 +77,7 @@ void Application::languageChange() {
 void Application::refresh() {
     qWarning("Application::refresh()");
     QPainter paint(thePaintingFrame);
-    paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2);
+    paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2); // let 1 pixel alone because the border is inset
 
     Data2DIterator it(this->serie2D->getData().getData());
 
