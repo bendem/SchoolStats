@@ -2,7 +2,7 @@
 #define CONSTDATA1DITERATOR_HPP
 
 #include "data/Data1D.hpp"
-#include "data/ConstDataIterator.hpp"
+#include "data/iterators/ConstDataIterator.hpp"
 
 class ConstData1DIterator : public ConstDataIterator<ConstData1DIterator> {
 

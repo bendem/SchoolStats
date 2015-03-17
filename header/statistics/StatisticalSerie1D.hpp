@@ -2,7 +2,7 @@
 #define STATSTICALSERIE1D_HPP
 
 #include "container/Array.hpp"
-#include "data/Data1DIterator.hpp"
+#include "data/iterators/Data1DIterator.hpp"
 #include "data/Sample.hpp"
 #include "data/DataSource.hpp"
 

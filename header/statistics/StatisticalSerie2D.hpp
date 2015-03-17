@@ -3,7 +3,7 @@
 
 #include "data/Sample.hpp"
 #include "data/DataSource2D.hpp"
-#include "data/Data2DIterator.hpp"
+#include "data/iterators/Data2DIterator.hpp"
 #include "utils/StringUtils.hpp"
 
 class StatisticalSerie2D {

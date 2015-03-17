@@ -2,7 +2,7 @@
 #define DATA1DITERATOR_HPP
 
 #include "data/Data1D.hpp"
-#include "data/DataIterator.hpp"
+#include "data/iterators/DataIterator.hpp"
 
 class Data1DIterator : public DataIterator<Data1DIterator> {
 

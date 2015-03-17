@@ -1,8 +1,8 @@
 #ifndef DATASOURCE2D_HPP
 #define DATASOURCE2D_HPP
 
-#include "data/Data2DIterator.hpp"
 #include "data/DataSource.hpp"
+#include "data/iterators/Data2DIterator.hpp"
 
 class DataSource2D : public DataSource {
 
