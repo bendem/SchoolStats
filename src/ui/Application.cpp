@@ -71,7 +71,6 @@ void Application::languageChange() {
 }
 
 void Application::refresh() {
-    cerr << "Application::refresh()" << endl;
     QPainter paint(thePaintingFrame);
     paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2); // let 1 pixel alone because the border is inset
 
@@ -103,7 +102,7 @@ void Application::drawLine() {
 }
 
 void Application::done() {
-    cerr << "Application::done(): Not implemented yet";
+    cerr << "Application::done()";
     close();
     QApplication::exit();
 }
