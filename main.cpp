@@ -5,13 +5,16 @@
 
 #include "data/DataSource.hpp"
 #include "data/Sample.hpp"
+#include "formatters/Data1DListFormatter.hpp"
+#include "formatters/StatisticalSerie1DFormatter.hpp"
 #include "statistics/StatisticalSerie1D.hpp"
 #include "statistics/StatisticalSerie2D.hpp"
 #include "ui/Application.hpp"
 #include "threading/Mutex.hpp"
 #include "threading/Log.hpp"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 unsigned int menu(const string&, const string&);
 void* Graph2D(void*);
@@ -36,26 +39,21 @@ int main(int argc, char* argv[]) {
             cout << "Etude 1D" << endl;
             Log::log("main", "Building 1D sample");
             sample = new Sample(argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2]));
+            cout << Data1DListFormatter(sample->getDataSource().getData()) << endl;
 
             Log::log("main", "Building StatisticalSerie1D");
             StatisticalSerie1D c1D(sample);
-            cout
-                << "\tavg: " << setw(15) << setfill(' ') << c1D.getAverage() << endl
-                << "\tcov: " << setw(15) << setfill(' ') << c1D.getCoefficientOfVariation() << endl
-                << "\tmed: " << setw(15) << setfill(' ') << c1D.getMedian() << endl
-                << "\tmod: " << setw(11) << setfill(' ') << c1D.getMode()[0] << ", " << c1D.getMode()[1] << ", " << c1D.getMode()[2] << endl
-                << "\tran: " << setw(15) << setfill(' ') << c1D.getRange() << endl
-                << "\tstd: " << setw(15) << setfill(' ') << c1D.getStandardDeviation() << endl;
-            //c1D.displayReport();
+            cout << StatisticalSerie1DFormatter(c1D) << endl;
             break;
         }
+
         case 4: {
             cout << "Etude 2D" << endl;
             Log::log("main", "Buidling 2D sample");
             sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
             Log::log("main", "Building StatisticalSerie2D");
             StatisticalSerie2D c2D(sample);
-            DataSource2D dataSource2D(static_cast<DataSource2D&>(sample->getDataSource()));
+            DataSource2D& dataSource2D(static_cast<DataSource2D&>(sample->getDataSource()));
 
             Mutex mutex;
 

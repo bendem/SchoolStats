@@ -12,7 +12,7 @@ protected:
 
 public:
     DataIterator(List<Data*>& data) : iterator(data) {}
-    DataIterator(const DataIterator& p) : iterator(p.iterator) {}
+    DataIterator(const DataIterator<T>& p) : iterator(p.iterator) {}
 
     Data* remove();
 
