@@ -12,11 +12,8 @@
 
 using namespace std;
 
+unsigned int menu(const string&, const string&);
 void* Graph2D(void*);
-
-unsigned int menu(DataSource2D&);
-
-pthread_t threadHandle;
 
 struct ThreadArgs {
     ThreadArgs(StatisticalSerie2D& serie2D, Mutex& mutex, int argc, char** argv)
@@ -59,6 +56,7 @@ int main(int argc, char* argv[]) {
             sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
             cerr << "Building StatisticalSerie2D" << endl;
             StatisticalSerie2D c2D(sample);
+            DataSource2D dataSource2D(static_cast<DataSource2D&>(sample->getDataSource()));
 
             Mutex mutex;
 
@@ -66,6 +64,7 @@ int main(int argc, char* argv[]) {
             ThreadArgs args(c2D, mutex, argc, argv);
 
             cerr << "Thread creation" << endl;
+            pthread_t threadHandle;
             if(pthread_create(&threadHandle, NULL, Graph2D, (void*) &args)) {
                 throw runtime_error("pthread_create error");
             }
@@ -73,7 +72,7 @@ int main(int argc, char* argv[]) {
             cerr << "Forecast menu thingies" << endl;
             unsigned int choice;
             do {
-                choice = menu(static_cast<DataSource2D&>(sample->getDataSource()));
+                choice = menu(dataSource2D.getSubject(), dataSource2D.getSubject2());
                 mutex.lock();
                 switch(choice) {
                     case 1: c2D.forecast1(); break;
@@ -101,14 +100,14 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-unsigned int menu(DataSource2D& derp) {
+unsigned int menu(const string& subject1, const string& subject2) {
     string choice;
     unsigned choiceInt = 0;
 
     cout << "FORECAST" << endl;
     cout << "---------------------------------------------" << endl;
-    cout << "\t1. Forecast for : " << derp.getSubject() << endl;
-    cout << "\t2. Forecast for : " << derp.getSubject2() << endl;
+    cout << "\t1. Forecast for : " << subject1 << endl;
+    cout << "\t2. Forecast for : " << subject2 << endl;
     cout << "\t3. Exit" << endl;
     cout << endl;
     while(choiceInt > 3 || choiceInt < 1) {

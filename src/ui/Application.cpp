@@ -104,11 +104,8 @@ void Application::drawLine() {
 
 void Application::done() {
     cerr << "Application::done(): Not implemented yet";
-    /*
-    place une variable continue a 0 et signale au main
-    ...
-    */
     close();
+    QApplication::exit();
 }
 
 void Application::select() {
