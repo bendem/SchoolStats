@@ -17,10 +17,10 @@ unsigned int menu(const string&, const string&);
 void* Graph2D(void*);
 
 struct ThreadArgs {
-    ThreadArgs(StatisticalSerie2D& serie2D, Mutex& mutex, int argc, char** argv)
-        : serie2D(serie2D), mutex(mutex), argc(argc), argv(argv) {
-    }
-    StatisticalSerie2D& serie2D;
+    ThreadArgs(StatisticalSerie2D& serie, Mutex& mutex, int argc, char** argv)
+        : serie(serie), mutex(mutex), argc(argc), argv(argv) {}
+
+    StatisticalSerie2D& serie;
     Mutex& mutex;
     int argc;
     char** argv;
@@ -36,7 +36,6 @@ int main(int argc, char* argv[]) {
             cout << "Etude 1D" << endl;
             Log::log("main", "Building 1D sample");
             sample = new Sample(argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2]));
-            sample->display();
 
             Log::log("main", "Building StatisticalSerie1D");
             StatisticalSerie1D c1D(sample);
@@ -121,7 +120,7 @@ void* Graph2D(void* arguments) {
 
     Log::log("Graph2D", "Creating application");
     QApplication a(args->argc, args->argv);
-    Application* app = new Application(args->serie2D, args->mutex);
+    Application* app = new Application(args->serie, args->mutex);
 
     Log::log("Graph2D", "Showing application");
     app->show();

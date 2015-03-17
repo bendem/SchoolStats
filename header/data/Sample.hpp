@@ -25,13 +25,9 @@ private:
 public:
     Sample(string filename, unsigned column);
     Sample(string filename, unsigned column1, unsigned column2);
-    Sample(const Sample&);
     ~Sample();
 
     DataSource& getDataSource();
-    void display() const;
-
-    Sample& operator=(Sample);
 
 };
 

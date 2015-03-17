@@ -121,26 +121,6 @@ Sample::Sample(string filename, unsigned column1, unsigned column2) {
     );
 }
 
-Sample::Sample(const Sample& p) {
-    // TODO Check if that's right
-    ContinousDataSource* d = dynamic_cast<ContinousDataSource*>(p.dataSource);
-    if(d) {
-        this->dataSource = new ContinousDataSource(*d);
-    } else {
-        this->dataSource = new DataSource2D(*static_cast<DataSource2D*>(p.dataSource));
-    }
-}
-
 Sample::~Sample() {
     delete this->dataSource;
-}
-
-void Sample::display() const {
-    // TODO
-    //this->dataSource->display();
-}
-
-Sample& Sample::operator=(Sample sample) {
-    swap(this->dataSource, sample.dataSource);
-    return *this;
 }
