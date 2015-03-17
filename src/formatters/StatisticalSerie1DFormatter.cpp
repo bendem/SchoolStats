@@ -1,8 +1,18 @@
 #include "formatters/StatisticalSerie1DFormatter.hpp"
 
-string StatisticalSerie1DFormatter::format() const {
+string StatisticalSerie1DFormatter::format() {
+    float interval = 0;
+    if(serie.getDataSource().getType() == CONTINOUS) {
+        interval = static_cast<ContinousDataSource&>(serie.getDataSource()).getIntervalSizes();
+    }
+
     ostringstream ss;
     ss
+        << Data1DListFormatter(
+               serie.getDataSource().getData(),
+               serie.getDataSource().getType(),
+               interval
+           ).format() << endl
         << "\tavg: " << setw(15) << setfill(' ') << serie.getAverage() << endl
         << "\tcov: " << setw(15) << setfill(' ') << serie.getCoefficientOfVariation() << endl
         << "\tmed: " << setw(15) << setfill(' ') << serie.getMedian() << endl

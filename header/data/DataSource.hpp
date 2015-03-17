@@ -35,6 +35,14 @@ public:
 
     DataSource& operator=(const DataSource&);
 
+    static string getTypeName(DataSourceType t) {
+        switch(t) {
+            case CONTINOUS: return "Continous";
+            case DISCRETE:  return "Discrete";
+        }
+        throw invalid_argument("");
+    }
+
 };
 
 inline List<Data*>& DataSource::getData() {

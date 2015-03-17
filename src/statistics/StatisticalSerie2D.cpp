@@ -10,11 +10,11 @@ void StatisticalSerie2D::forecast1() {
     string value;
     float valueFloat, result;
     
-    cout << "\tEnter a value for " << dataSource.getSubject() << ": ";
+    cout << endl << "    Enter a value for " << dataSource.getSubject() << ": ";
     getline(cin, value, cin.widen('\n'));
     valueFloat = StringUtils::stringToFloat(value);
     result = coefficientA * valueFloat + coefficientB;
-    cout << "\tForecasted value = " << result << endl;
+    cout << "    > Forecasted value = " << result << endl << endl;
 }
 
 void StatisticalSerie2D::forecast2() {

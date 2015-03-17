@@ -9,10 +9,10 @@ using namespace std;
 class Formatter {
 
 public:
-    virtual string format() const = 0;
+    virtual string format() = 0;
 
 };
 
-ostream& operator<<(ostream&, const Formatter&);
+ostream& operator<<(ostream&, Formatter&);
 
 #endif

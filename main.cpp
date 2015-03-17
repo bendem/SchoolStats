@@ -7,6 +7,7 @@
 #include "data/Sample.hpp"
 #include "formatters/Data1DListFormatter.hpp"
 #include "formatters/StatisticalSerie1DFormatter.hpp"
+#include "formatters/StatisticalSerie2DFormatter.hpp"
 #include "statistics/StatisticalSerie1D.hpp"
 #include "statistics/StatisticalSerie2D.hpp"
 #include "ui/Application.hpp"
@@ -39,11 +40,10 @@ int main(int argc, char* argv[]) {
             cout << "Etude 1D" << endl;
             Log::log("main", "Building 1D sample");
             sample = new Sample(argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2]));
-            cout << Data1DListFormatter(sample->getDataSource().getData()) << endl;
 
             Log::log("main", "Building StatisticalSerie1D");
             StatisticalSerie1D c1D(sample);
-            cout << StatisticalSerie1DFormatter(c1D) << endl;
+            cout << StatisticalSerie1DFormatter(c1D).format() << endl;
             break;
         }
 
@@ -53,6 +53,8 @@ int main(int argc, char* argv[]) {
             sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
             Log::log("main", "Building StatisticalSerie2D");
             StatisticalSerie2D c2D(sample);
+            cout << StatisticalSerie2DFormatter(c2D).format() << endl;
+
             DataSource2D& dataSource2D(static_cast<DataSource2D&>(sample->getDataSource()));
 
             Mutex mutex;
@@ -98,12 +100,12 @@ unsigned int menu(const string& subject1, const string& subject2) {
     string choice;
     unsigned choiceInt = 0;
 
-    cout << "FORECAST" << endl;
-    cout << "---------------------------------------------" << endl;
-    cout << "\t1. Forecast for : " << subject1 << endl;
-    cout << "\t2. Forecast for : " << subject2 << endl;
-    cout << "\t3. Exit" << endl;
-    cout << endl;
+    cout << endl
+        << "  = FORECAST =" << endl
+        << "  ============" << endl
+        << "    1. Forecast for : " << subject1 << endl
+        << "    2. Forecast for : " << subject2 << endl
+        << "    3. Exit" << endl << endl;
     while(choiceInt > 3 || choiceInt < 1) {
         cout << "Choice: ";
         getline(cin, choice, cin.widen('\n'));
