@@ -23,7 +23,6 @@ OBJ:=$(FILES:$(SRC)/%.cpp=$(OUT)/%.o)
 .PHONY: build clean mkdir
 
 build: | mkdir $(OUT)/main
-ui:    | mkdir $(OUT)/T
 
 release: FLA += -O2
 release: | clean build ui
@@ -31,11 +30,11 @@ release: | clean build ui
 $(OUT)/main: main.cpp $(OBJ)
 	$(CXX) $(QT_FLA) -o $@ $^
 
-$(OUT)/T: T.cpp $(OBJ)
-	$(CXX) $(QT_FLA) -o $@ $^
-
 $(OUT)/ui/%.o: $(SRC)/ui/%.cpp $(HDR)/ui/%.hpp
 	$(CXX) $(QT_FLA) -c -o $@ $<
+
+$(OUT)/threading/%.o: $(SRC)/threading/%.cpp $(HDR)/threading/%.hpp
+	$(CXX) -lpthread $(OBJ_FLA) -c -o $@ $<
 
 $(OUT)/%.o: $(SRC)/%.cpp $(HDR)/%.hpp
 	$(CXX) $(OBJ_FLA) -c -o $@ $<

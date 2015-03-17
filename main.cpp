@@ -1,18 +1,32 @@
 #include <iostream>
 #include <iomanip>
 
-#include "data/Sample.hpp"
+#include <qapplication.h>
+
 #include "data/DataSource.hpp"
-#include "data/DataSource2D.hpp"
+#include "data/Sample.hpp"
 #include "statistics/StatisticalSerie1D.hpp"
 #include "statistics/StatisticalSerie2D.hpp"
-#include "utils/StringUtils.hpp"
+#include "ui/Application.hpp"
+#include "threading/Mutex.hpp"
 
 using namespace std;
 
-unsigned int menu(const DataSource2D&);
-void displayReport1D(StatisticalSerie1D&);
-void displayReport2D(StatisticalSerie2D&);
+void* Graph2D(void*);
+
+unsigned int menu(DataSource2D&);
+
+pthread_t threadHandle;
+
+struct ThreadArgs {
+    ThreadArgs(StatisticalSerie2D& serie2D, Mutex& mutex, int argc, char** argv)
+        : serie2D(serie2D), mutex(mutex), argc(argc), argv(argv) {
+    }
+    StatisticalSerie2D& serie2D;
+    Mutex& mutex;
+    int argc;
+    char** argv;
+};
 
 int main(int argc, char* argv[]) {
     fstream x("application.log", ios::out | ios::trunc);
@@ -29,15 +43,14 @@ int main(int argc, char* argv[]) {
             sample->display();
             cerr << "Building StatisticalSerie1D" << endl;
             StatisticalSerie1D c1D(sample);
-            /*cout
+            cout
                 << "\tavg: " << setw(15) << setfill(' ') << c1D.getAverage() << endl
                 << "\tcov: " << setw(15) << setfill(' ') << c1D.getCoefficientOfVariation() << endl
                 << "\tmed: " << setw(15) << setfill(' ') << c1D.getMedian() << endl
                 << "\tmod: " << setw(11) << setfill(' ') << c1D.getMode()[0] << ", " << c1D.getMode()[1] << ", " << c1D.getMode()[2] << endl
                 << "\tran: " << setw(15) << setfill(' ') << c1D.getRange() << endl
-                << "\tstd: " << setw(15) << setfill(' ') << c1D.getStandardDeviation() << endl
-                ;*/
-            displayReport1D(c1D);
+                << "\tstd: " << setw(15) << setfill(' ') << c1D.getStandardDeviation() << endl;
+            //c1D.displayReport();
             break;
         }
         case 4: {
@@ -46,17 +59,33 @@ int main(int argc, char* argv[]) {
             sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
             cerr << "Building StatisticalSerie2D" << endl;
             StatisticalSerie2D c2D(sample);
-            //C2D.display();
-            //C2D.forecast();
+
+            Mutex mutex;
+
+            cerr << "Creating thread arguments" << endl;
+            ThreadArgs args(c2D, mutex, argc, argv);
+
+            cerr << "Thread creation" << endl;
+            if(pthread_create(&threadHandle, NULL, Graph2D, (void*) &args)) {
+                throw runtime_error("pthread_create error");
+            }
+
+            cerr << "Forecast menu thingies" << endl;
             unsigned int choice;
             do {
-                choice = menu(static_cast<const DataSource2D&>(sample->getDataSource()));
-                if(choice == 1) {
-                    c2D.forecast1();
-                } else if(choice == 2) {
-                    c2D.forecast2();
+                choice = menu(static_cast<DataSource2D&>(sample->getDataSource()));
+                mutex.lock();
+                switch(choice) {
+                    case 1: c2D.forecast1(); break;
+                    case 2: c2D.forecast2(); break;
                 }
-            } while (choice != 3);
+                mutex.unlock();
+            } while(choice != 3);
+
+            cerr << "Joining thread" << endl;
+            if(pthread_join(threadHandle, NULL)) {
+                throw runtime_error("pthread_join error");
+            }
             break;
         }
         default:
@@ -68,10 +97,11 @@ int main(int argc, char* argv[]) {
 
     cerr << "Restoring cerr buffer" << endl;
     cerr.rdbuf(old);
+
     return 0;
 }
 
-unsigned int menu(const DataSource2D& derp) {
+unsigned int menu(DataSource2D& derp) {
     string choice;
     unsigned choiceInt = 0;
 
@@ -89,79 +119,21 @@ unsigned int menu(const DataSource2D& derp) {
     return choiceInt;
 }
 
-void displayReport1D(StatisticalSerie1D& stat) {
-    DataSource& bob(stat.getDataSource());
-    Data1DIterator it(bob.getData());
+void* Graph2D(void* arguments) {
+    cerr << "[Graph2D] We're in the thread \\o/" << endl;
+    ThreadArgs* args = static_cast<ThreadArgs*>(arguments);
 
-    cout << "REPORT" << endl;
-    cout << "---------------------------------------------" << endl;
-    cout << "Name: " << bob.getName() << endl;
-    cout << "Subject of the study: " << bob.getSubject() << endl;
-    cout << "Data type: ";
-    if(bob.getType() == CONTINOUS) {
-        cout << "Continous" << endl;
-    } else {
-        cout << "Discrete" << endl;
-    }
-    cout << endl;
-    cout << "DONNEES" << endl;
-    cout << "---------------------------------------------" << endl;
+    cerr << "[Graph2D] Creating application" << endl;
+    QApplication a(args->argc, args->argv);
+    Application* app = new Application(args->serie2D, args->mutex);
 
-    while(!it.end()) {
-        cout << "\t" << it.getX() << "\t" << it.getY() << endl;
-        ++it;
-    }
+    cerr << "[Graph2D] Showing application" << endl;
+    app->show();
+    a.exec();
 
-    cout << "Total count: " << bob.getTotalCount() << endl << endl;
+    cerr << "[Graph2D] Deleting application" << endl;
+    delete app;
 
-    cout << endl;
-    cout << "STATS" << endl;
-    cout << "---------------------------------------------" << endl;
-    cout << "Moyenne: " << stat.getAverage()<< endl;
-    cout << "Mediane: " << stat.getMedian()<< endl;
-    cout << "Mode: " << stat.getMode()[0] << ", " << stat.getMode()[1] << ", " << stat.getMode()[2] << endl;
-    cout << "Standard Deviation: " << stat.getStandardDeviation() << endl;
-    cout << "Coefficient of variation: " << stat.getCoefficientOfVariation()<< endl;
-}
-
-void displayReport2D(StatisticalSerie2D& stat) {
-    DataSource2D& bob(stat.getDataSource());
-    Data2DIterator it(bob.getData());
-
-    cout << "REPORT" << endl;
-    cout << "---------------------------------------------" << endl;
-    cout << "Name: " << bob.getName() << endl;
-    cout << "Subjects of the study: " << bob.getSubject() << "|" << bob.getSubject2() << endl;
-    cout << "Data type: ";
-    if(bob.getType() == CONTINOUS) {
-        cout << "Continous | ";
-    } else {
-        cout << "Discrete | ";
-    }
-    if(bob.getType2() == CONTINOUS) {
-        cout << "Continous" << endl;
-    } else {
-        cout << "Discrete" << endl;
-    }
-    cout << endl;
-    cout << "DATA" << endl;
-    cout << "---------------------------------------------" << endl;
-
-    while(!it.end()) {
-        cout << "\t" << it.getX() << "\t" << it.getY() << endl;
-        ++it;
-    }
-
-    cout << "Total count: " << bob.getTotalCount() << endl << endl;
-    cout << endl;
-
-    cout << "Average value1: " << stat.getAverageValue1() << endl;
-    cout << "Average value2: " << stat.getAverageValue2() << endl;
-
-    cout << endl;
-
-    cout << "Correlation:" << endl;
-    cout << "Coefficient a :" << stat.getCoefficientA() << endl;
-    cout << "Coefficient b :" << stat.getCoefficientB() << endl;
-    cout << endl;
+    cerr << "[Graph2D] Thread end" << endl;
+    return NULL;
 }

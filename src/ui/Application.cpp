@@ -1,9 +1,5 @@
 #include "ui/Application.hpp"
 
-//extern pthread_cond_t cond;
-extern pthread_mutex_t mutex;
-//extern int again;
-
 const unsigned int Application::WIDTH = 440;
 const unsigned int Application::HEIGHT = 240;
 
@@ -14,8 +10,8 @@ const unsigned int Application::HEIGHT = 240;
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-Application::Application(StatisticalSerie2D* serie2D)
-        : QDialog(NULL, NULL, false, 0), serie2D(serie2D) {
+Application::Application(StatisticalSerie2D& serie2D, Mutex& mutex)
+        : QDialog(NULL, NULL, false, 0), serie2D(serie2D), mutex(mutex) {
     setName("Application");
 
     doneButton = new QPushButton("doneButton", this);
@@ -48,10 +44,10 @@ Application::Application(StatisticalSerie2D* serie2D)
     connect(drawButton, SIGNAL(clicked()), this, SLOT(drawLine()));
     connect(selectButton, SIGNAL(clicked()), this, SLOT(select()));
 
-    this->minX = serie2D->getData().getMinX();
-    this->minY = serie2D->getData().getMinY();
-    this->maxX = serie2D->getData().getMaxX();
-    this->maxY = serie2D->getData().getMaxY();
+    this->minX = serie2D.getData().getMinX();
+    this->minY = serie2D.getData().getMinY();
+    this->maxX = serie2D.getData().getMaxX();
+    this->maxY = serie2D.getData().getMaxY();
 }
 
 /*
@@ -79,7 +75,7 @@ void Application::refresh() {
     QPainter paint(thePaintingFrame);
     paint.eraseRect(1, 1, WIDTH - 2, HEIGHT - 2); // let 1 pixel alone because the border is inset
 
-    Data2DIterator it(this->serie2D->getData().getData());
+    Data2DIterator it(this->serie2D.getData().getData());
 
     while(!it.end()) {
         paint.setPen(Qt::blue);
@@ -93,8 +89,8 @@ void Application::drawLine() {
 
     this->refresh();
 
-    float a = this->serie2D->getCoefficientA();
-    float b = this->serie2D->getCoefficientB();
+    float a = this->serie2D.getCoefficientA();
+    float b = this->serie2D.getCoefficientB();
 
     QPainter paint(thePaintingFrame);
 
@@ -139,22 +135,21 @@ void Application::select() {
     unsigned int minY = min(startingPoint.y(), endingPoint.y());
     unsigned int maxY = max(startingPoint.y(), endingPoint.y());
 
-    pthread_mutex_lock(&mutex);
-    Data2DIterator it(this->serie2D->getData().getData());
+    mutex.lock();
+    Data2DIterator it(this->serie2D.getData().getData());
     while(!it.end()) {
         if(this->transformX(it.getX()) > minX
                 && this->transformX(it.getX()) < maxX
                 && this->transformY(it.getY()) > minY
                 && this->transformY(it.getY()) < maxY) {
             it.remove();
-            this->serie2D->getData().resetTotalCount();
-            //it.get()->setValue2(0);
+            this->serie2D.getData().resetTotalCount();
         } else {
             ++it;
         }
     }
-    this->serie2D->computeCoefficients();
-    pthread_mutex_unlock(&mutex);
+    this->serie2D.computeCoefficients();
+    mutex.unlock();
 
     this->refresh();
 }

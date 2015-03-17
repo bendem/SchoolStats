@@ -12,6 +12,7 @@
 #include "data/Data2D.hpp"
 #include "data/DataSource2D.hpp"
 #include "statistics/StatisticalSerie2D.hpp"
+#include "threading/Mutex.hpp"
 
 class QFrame;
 class QGridLayout;
@@ -24,7 +25,7 @@ class Application : public QDialog {
 Q_OBJECT
 
 public:
-    Application(StatisticalSerie2D*);
+    Application(StatisticalSerie2D&, Mutex&);
     ~Application();
 
     QPushButton* doneButton;
@@ -57,7 +58,8 @@ private:
     float e1;
     float e2;
     float maxX, maxY, minX, minY;
-    StatisticalSerie2D* serie2D;
+    StatisticalSerie2D& serie2D;
+    Mutex& mutex;
 
     unsigned transformX(float) const;
     unsigned transformY(float) const;
