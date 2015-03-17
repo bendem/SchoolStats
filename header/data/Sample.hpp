@@ -14,6 +14,7 @@
 #include "data/DataSource2D.hpp"
 #include "utils/StreamUtils.hpp"
 #include "utils/StringUtils.hpp"
+#include "threading/Log.hpp"
 
 using namespace std;
 

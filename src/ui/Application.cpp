@@ -55,7 +55,7 @@ Application::Application(StatisticalSerie2D& serie2D, Mutex& mutex)
  */
 Application::~Application() {
     // no need to delete child widgets, Qt does it all for us
-    cerr << "dans destructeur FAffiche" << endl;
+    Log::log("Application", "~Application");
 }
 
 /*
@@ -84,7 +84,7 @@ void Application::refresh() {
 }
 
 void Application::drawLine() {
-    cerr << "Application::drawLine()" << endl;
+    Log::log("Application", "drawLine");
 
     this->refresh();
 
@@ -102,13 +102,13 @@ void Application::drawLine() {
 }
 
 void Application::done() {
-    cerr << "Application::done()";
+    Log::log("Application", "done");
     close();
     QApplication::exit();
 }
 
 void Application::select() {
-    cerr << "Application::select() " << endl;
+    Log::log("Application", "select");
 
     QPainter paint(thePaintingFrame);
     paint.setPen(Qt::black);

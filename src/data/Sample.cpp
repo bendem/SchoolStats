@@ -7,7 +7,7 @@ Sample::Sample(string filename, unsigned column) {
     List<string> lines = StreamUtils::readLines(is);
     ConstIterator<string> it(lines);
 
-    cerr << "Getting context information" << endl;
+    Log::log("Sample", "Getting context information");
     string name = (it++).get();
     string subject = StringUtils::split((it++).get(), ':')[column-1];
     string t = StringUtils::split((it++).get(), ':')[column-1];
@@ -15,7 +15,7 @@ Sample::Sample(string filename, unsigned column) {
 
     float firstInterval = 0, intervalSizes = 0;
     if(type == CONTINOUS) {
-        cerr << "Reading data intervals from user" << endl;
+        Log::log("Sample", "Reading data intervals from user");
         string tmp;
         cout << " Start of the first interval: ";
         getline(cin, tmp, cin.widen('\n'));
@@ -27,7 +27,7 @@ Sample::Sample(string filename, unsigned column) {
     }
 
     // Read all the data from the file in a sorted list
-    cerr << "Reading file data" << endl;
+    Log::log("Sample", "Reading file data");
     SortedList<float> dataRead;
     while(!it.end()) {
         List<string> columns = StringUtils::split(it.get(), ':');
@@ -37,7 +37,7 @@ Sample::Sample(string filename, unsigned column) {
     }
 
     // Count the data and move them to a List<Data*>
-    cerr << "Moving data read to a List<Data*>" << endl;
+    Log::log("Sample", "Moving data read to a List<Data*>");
     List<Data*> data;
     unsigned totalCount = 0;
     if(type == DISCRETE) {
@@ -72,7 +72,7 @@ Sample::Sample(string filename, unsigned column) {
         }
     }
 
-    cerr << "Building data source" << endl;
+    Log::log("Sample", "Building data source");
     if(type == DISCRETE) {
         this->dataSource = new DiscreteDataSource(name, subject, totalCount, data);
     } else {
@@ -94,12 +94,12 @@ Sample::Sample(string filename, unsigned column1, unsigned column2) {
     List<string> lines = StreamUtils::readLines(is);
     ConstIterator<string> it(lines);
 
-    cerr << "Getting context information" << endl;
+    Log::log("Sample", "Getting context information");
     string name = (it++).get();
     List<string> subjects = StringUtils::split((it++).get(), ':');
     List<string> types = StringUtils::split((it++).get(), ':');
 
-    cerr << "Reading file data" << endl;
+    Log::log("Sample", "Reading file data");
     List<Data*> data;
     while(!it.end()) {
         List<string> values = StringUtils::split(it.get(), ':');
@@ -110,7 +110,7 @@ Sample::Sample(string filename, unsigned column1, unsigned column2) {
         ++it;
     }
 
-    cerr << "Creating data source" << endl;
+    Log::log("Sample", "Creating data source");
     this->dataSource = new DataSource2D(
         name,
         subjects[column1],

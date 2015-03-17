@@ -9,6 +9,7 @@
 #include "statistics/StatisticalSerie2D.hpp"
 #include "ui/Application.hpp"
 #include "threading/Mutex.hpp"
+#include "threading/Log.hpp"
 
 using namespace std;
 
@@ -26,19 +27,18 @@ struct ThreadArgs {
 };
 
 int main(int argc, char* argv[]) {
-    fstream x("application.log", ios::out | ios::trunc);
-    streambuf* old = cerr.rdbuf(x.rdbuf());
-    cerr << "Application starting" << endl;
+    Log::log("main", "Application starting");
 
     Sample* sample = NULL;
     switch(argc) {
         case 2:
         case 3: {
             cout << "Etude 1D" << endl;
-            cerr << "Building 1D sample" << endl;
+            Log::log("main", "Building 1D sample");
             sample = new Sample(argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2]));
             sample->display();
-            cerr << "Building StatisticalSerie1D" << endl;
+
+            Log::log("main", "Building StatisticalSerie1D");
             StatisticalSerie1D c1D(sample);
             cout
                 << "\tavg: " << setw(15) << setfill(' ') << c1D.getAverage() << endl
@@ -52,24 +52,24 @@ int main(int argc, char* argv[]) {
         }
         case 4: {
             cout << "Etude 2D" << endl;
-            cerr << "Buidling 2D sample" << endl;
+            Log::log("main", "Buidling 2D sample");
             sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
-            cerr << "Building StatisticalSerie2D" << endl;
+            Log::log("main", "Building StatisticalSerie2D");
             StatisticalSerie2D c2D(sample);
             DataSource2D dataSource2D(static_cast<DataSource2D&>(sample->getDataSource()));
 
             Mutex mutex;
 
-            cerr << "Creating thread arguments" << endl;
+            Log::log("main", "Creating thread arguments");
             ThreadArgs args(c2D, mutex, argc, argv);
 
-            cerr << "Thread creation" << endl;
+            Log::log("main", "Thread creation");
             pthread_t threadHandle;
             if(pthread_create(&threadHandle, NULL, Graph2D, (void*) &args)) {
                 throw runtime_error("pthread_create error");
             }
 
-            cerr << "Forecast menu thingies" << endl;
+            Log::log("main", "Forecast menu thingies");
             unsigned int choice;
             do {
                 choice = menu(dataSource2D.getSubject(), dataSource2D.getSubject2());
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
                 mutex.unlock();
             } while(choice != 3);
 
-            cerr << "Joining thread" << endl;
+            Log::log("main", "Joining thread");
             if(pthread_join(threadHandle, NULL)) {
                 throw runtime_error("pthread_join error");
             }
@@ -91,11 +91,8 @@ int main(int argc, char* argv[]) {
             cout << "Invalid number of arguments" << endl;
     }
 
-    cerr << "Cleaning up" << endl;
+    Log::log("main", "Cleaning up");
     delete sample;
-
-    cerr << "Restoring cerr buffer" << endl;
-    cerr.rdbuf(old);
 
     return 0;
 }
@@ -119,20 +116,20 @@ unsigned int menu(const string& subject1, const string& subject2) {
 }
 
 void* Graph2D(void* arguments) {
-    cerr << "[Graph2D] We're in the thread \\o/" << endl;
+    Log::log("Graph2D", "We're in the thread \\o/");
     ThreadArgs* args = static_cast<ThreadArgs*>(arguments);
 
-    cerr << "[Graph2D] Creating application" << endl;
+    Log::log("Graph2D", "Creating application");
     QApplication a(args->argc, args->argv);
     Application* app = new Application(args->serie2D, args->mutex);
 
-    cerr << "[Graph2D] Showing application" << endl;
+    Log::log("Graph2D", "Showing application");
     app->show();
     a.exec();
 
-    cerr << "[Graph2D] Deleting application" << endl;
+    Log::log("Graph2D", "Deleting application");
     delete app;
 
-    cerr << "[Graph2D] Thread end" << endl;
+    Log::log("Graph2D", "Thread end");
     return NULL;
 }
