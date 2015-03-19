@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <sstream>
 
+#include "utils/TermUtils.hpp"
+
 using namespace std;
 
 class Formatter {

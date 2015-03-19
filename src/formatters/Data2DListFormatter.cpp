@@ -8,7 +8,7 @@ string Data2DListFormatter::format() {
 
     Data2DIterator it(data);
     while(!it.end()) {
-        ss << ' ' << setw(maxXLen) << it.getX() << " | " << setw(maxYLen) << it.getY() << endl;
+        ss << ' ' << setw(maxXLen) << it.getX() << blue << " | " << setw(maxYLen) << reset << it.getY() << endl;
         ++it;
     }
 

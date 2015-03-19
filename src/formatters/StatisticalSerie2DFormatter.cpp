@@ -8,21 +8,21 @@ string StatisticalSerie2DFormatter::format() {
 
     int x = max(bob.getSubject().length(), DataSource::getTypeName(bob.getType()).length());
 
-    ss << endl << "  = REPORT =" << endl
-        << "  ==========" << endl
+    ss << endl << yellow << "  = REPORT =" << endl
+        << "  ==========" << reset << endl
         << " Name: " << bob.getName() << endl
-        << " Subjects of the study: " << setw(x) << bob.getSubject() << " | " << bob.getSubject2() << endl
-        << " Data type:             " << setw(x) << DataSource::getTypeName(bob.getType()) << " | "
+        << " Subjects of the study: " << setw(x) << bob.getSubject() << blue << " | " << reset << bob.getSubject2() << endl
+        << " Data type:             " << setw(x) << DataSource::getTypeName(bob.getType()) << blue << " | " << reset
         << DataSource::getTypeName(bob.getType2()) << endl << endl
-        << "  = DATA =" << endl
-        << "  ========" << endl
+        << yellow << "  = DATA =" << endl
+        << "  ========" << reset << endl
         << Data2DListFormatter(bob.getData(), bob.getMaxX(), bob.getMaxY()).format() << endl
-        << " Total count: " << bob.getTotalCount() << endl << endl << endl
-        << " Average value1: " << serie.getAverageValue1() << endl
-        << " Average value2: " << serie.getAverageValue2() << endl << endl
+        << yellow << " Total count: " << reset << bob.getTotalCount() << endl << endl << endl
+        << yellow << " Average value1: " << reset << serie.getAverageValue1() << endl
+        << yellow << " Average value2: " << reset << serie.getAverageValue2() << endl << endl
 
-        << " Correlation:" << endl
-        << " Coefficient a :" << serie.getCoefficientA() << endl
-        << " Coefficient b :" << serie.getCoefficientB() << endl << endl;
+        << yellow << " Correlation:" << reset << endl
+        << yellow << " Coefficient a :" << reset << serie.getCoefficientA() << endl
+        << yellow << " Coefficient b :" << reset << serie.getCoefficientB() << endl << endl;
     return ss.str();
 }
