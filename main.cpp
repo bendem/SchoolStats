@@ -39,7 +39,14 @@ int main(int argc, char* argv[]) {
         case 3: {
             cout << "Etude 1D" << endl;
             Log::log("main", "Building 1D sample");
-            sample = new Sample(argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2]));
+            try {
+                sample = new Sample(
+                    argv[1], argc == 2 ? 1 : StringUtils::stringToUnsigned(argv[2])
+                );
+            } catch(invalid_argument e) {
+                cout << "Invalid program parameter: " << e.what() << endl;
+                return 1;
+            }
 
             Log::log("main", "Building StatisticalSerie1D");
             StatisticalSerie1D c1D(sample);
@@ -50,7 +57,16 @@ int main(int argc, char* argv[]) {
         case 4: {
             cout << "Etude 2D" << endl;
             Log::log("main", "Buidling 2D sample");
-            sample = new Sample(argv[1], StringUtils::stringToUnsigned(argv[2]), StringUtils::stringToUnsigned(argv[3]));
+            try {
+                sample = new Sample(
+                    argv[1],
+                    StringUtils::stringToUnsigned(argv[2]),
+                    StringUtils::stringToUnsigned(argv[3])
+                );
+            } catch(invalid_argument e) {
+                cout << "Invalid program parameter: " << e.what() << endl;
+                return 1;
+            }
             Log::log("main", "Building StatisticalSerie2D");
             StatisticalSerie2D c2D(sample);
             cout << StatisticalSerie2DFormatter(c2D).format() << endl;
@@ -76,6 +92,7 @@ int main(int argc, char* argv[]) {
                 switch(choice) {
                     case 1: c2D.forecast1(); break;
                     case 2: c2D.forecast2(); break;
+                    default: Sanity::truthness(false, "That should never happen");
                 }
                 mutex.unlock();
             } while(choice != 3);
@@ -88,6 +105,7 @@ int main(int argc, char* argv[]) {
         }
         default:
             cout << "Invalid number of arguments" << endl;
+            return 1;
     }
 
     Log::log("main", "Cleaning up");
@@ -97,7 +115,6 @@ int main(int argc, char* argv[]) {
 }
 
 unsigned int menu(const string& subject1, const string& subject2) {
-    string choice;
     unsigned choiceInt = 0;
 
     cout << endl
