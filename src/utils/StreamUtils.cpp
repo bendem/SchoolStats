@@ -9,3 +9,29 @@ List<string> StreamUtils::readLines(istream& is) {
     }
     return lines;
 }
+
+string StreamUtils::read() {
+    string tmp;
+    getline(cin, tmp, cin.widen('\n'));
+    return tmp;
+}
+
+float StreamUtils::readFloat() {
+    while(true) {
+        try {
+            return StringUtils::stringToFloat(read());
+        } catch(invalid_argument e) {
+            cout << "Error: '" << e.what() << "', try again: " << endl;
+        }
+    }
+}
+
+unsigned StreamUtils::readUnsignedInt() {
+    while(true) {
+        try {
+            return StringUtils::stringToUnsigned(read());
+        } catch(invalid_argument e) {
+            cout << "Error: '" << e.what() << "', try again: " << endl;
+        }
+    }
+}

@@ -108,8 +108,7 @@ unsigned int menu(const string& subject1, const string& subject2) {
         << "    3. Exit" << endl << endl;
     while(choiceInt > 3 || choiceInt < 1) {
         cout << "Choice: ";
-        getline(cin, choice, cin.widen('\n'));
-        choiceInt = StringUtils::stringToUnsigned(choice);
+        choiceInt = StreamUtils::readUnsignedInt();
     }
     return choiceInt;
 }

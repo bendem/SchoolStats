@@ -13,17 +13,21 @@ Sample::Sample(string filename, unsigned column) {
     string t = StringUtils::split((it++).get(), ':')[column-1];
     DataSourceType type = t == "C" ? CONTINOUS : DISCRETE;
 
-    float firstInterval = 0, intervalSizes = 0;
+    float firstInterval = -1, intervalSizes = -1;
     if(type == CONTINOUS) {
         Log::log("Sample", "Reading data intervals from user");
-        string tmp;
         cout << " Start of the first interval: ";
-        getline(cin, tmp, cin.widen('\n'));
-        firstInterval = StringUtils::stringToFloat(tmp); // TODO Handle invalid input
+        firstInterval = StreamUtils::readFloat();
 
         cout << " Size of the intervals: ";
-        getline(cin, tmp, cin.widen('\n'));
-        intervalSizes = StringUtils::stringToFloat(tmp); // TODO Handle invalid input
+        while(true) {
+            intervalSizes = StreamUtils::readFloat();
+            if(intervalSizes <= 0) {
+                cout << " Provide something greater than 0: ";
+            } else {
+                break;
+            }
+        }
     }
 
     // Read all the data from the file in a sorted list
