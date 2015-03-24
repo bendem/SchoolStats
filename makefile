@@ -9,9 +9,11 @@ OBJ_FLA=-pedantic -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisable
 CXX=g++ $(FLA)
 
 ifneq ("$(wildcard /usr/lib64/qt-3.3/include/qapplication.h)","")
-QT_FLA=-I/usr/lib64/qt-3.3/include/ -L/usr/lib64/qt-3.3/lib/ -lqt-mt -lpthread
+QT_INC=-I/usr/lib64/qt-3.3/include/ -L/usr/lib64/qt-3.3/lib/
+LIB_FLA=-lqt-mt -lpthread
 else
-QT_FLA=-I/usr/local/qt/include -I/usr/local/qt/mkspec/default -lqt -lpthread
+QT_INC=-I/usr/local/qt/include -I/usr/local/qt/mkspec/default
+LIB_FLA=-lqt -lpthread
 endif
 
 # Get all files from the header dirs
@@ -25,16 +27,16 @@ OBJ:=$(FILES:$(SRC)/%.cpp=$(OUT)/%.o)
 build: | mkdir $(OUT)/main
 
 release: FLA += -O2
-release: | clean build ui
+release: | clean build
 
 $(OUT)/main: main.cpp $(OBJ)
-	$(CXX) $(QT_FLA) -o $@ $^
+	$(CXX) $(QT_INC) $(LIB_FLA) -o $@ $^
 
 $(OUT)/ui/%.o: $(SRC)/ui/%.cpp $(HDR)/ui/%.hpp
-	$(CXX) $(QT_FLA) -c -o $@ $<
+	$(CXX) $(QT_INC) -c -o $@ $<
 
 $(OUT)/threading/%.o: $(SRC)/threading/%.cpp $(HDR)/threading/%.hpp
-	$(CXX) -lpthread $(OBJ_FLA) -c -o $@ $<
+	$(CXX) $(OBJ_FLA) -c -o $@ $<
 
 $(OUT)/%.o: $(SRC)/%.cpp $(HDR)/%.hpp
 	$(CXX) $(OBJ_FLA) -c -o $@ $<
